@@ -1,6 +1,10 @@
-﻿using CsMarket.Steam;
+﻿using CsMarket.Market;
+using CsMarket.Repository;
+using CsMarket.Steam;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,6 +88,39 @@ namespace CsMarket.Tests.Steam
         {
             Assert.Throws<ArgumentException>(
                 () => new SteamId(steamIdText));
+        }
+
+        [Fact]
+        public void StoredWithEFCore_ShouldHaveSameValues()
+        {
+            using var context = new SteamIdContext();
+            context.Database.EnsureCreated();
+            context.Database.BeginTransaction();
+
+            var expected = new SteamId(76561199118590847);
+
+            context.SteamIds.Add(expected);
+            context.SaveChanges();
+
+            var steamId = context.SteamIds.Single();
+
+            Assert.Equal(expected.SteamId32, steamId.SteamId32);
+            Assert.Equal(expected.SteamId64, steamId.SteamId64);
+            Assert.Equal(expected.SteamIdText, steamId.SteamIdText);
+
+            context.Database.EnsureDeleted();
+        }
+    }
+
+    internal class SteamIdContext : DbContext
+    {
+        private const string TestConnection = "Host=localhost;Port=5432;Database=csmarket;Username=postgres;Password=postgres";
+
+        public DbSet<SteamId> SteamIds { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql(TestConnection);
         }
     }
 }

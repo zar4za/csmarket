@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CsMarket.Steam
 {
@@ -7,12 +8,10 @@ namespace CsMarket.Steam
         private const string SteamIdBase = "STEAM_0"; // only individual accounts accepted 
         private const long SteamId64Base = 76561197960265728;
 
-        private readonly int _idNumber;
-        private readonly int _accountNumber;
+        public string SteamIdText => $"{SteamIdBase}:{SteamId32 % 2}:{SteamId32 / 2}";
 
-        public string SteamIdText => $"{SteamIdBase}:{_idNumber}:{_accountNumber}";
-
-        public int SteamId32 => _accountNumber * 2 + _idNumber;
+        [Key]
+        public int SteamId32 { get; private set; }
 
         public long SteamId64 => SteamId64Base + SteamId32;
 
@@ -25,15 +24,7 @@ namespace CsMarket.Steam
                 throw new ArgumentException($"SteamID64 must be greater than its base equal {SteamId64Base}.", nameof(steamId64));
             }
 
-            var idBase = (int) (steamId64 - SteamId64Base);
-
-            if (idBase % 2 != 0)
-            {
-                _idNumber = 1;
-                idBase -= 1;
-            }
-
-            _accountNumber = idBase / 2;
+            SteamId32 = (int) (steamId64 - SteamId64Base);
         }
 
         public SteamId(int steamId32)
@@ -43,13 +34,7 @@ namespace CsMarket.Steam
                 throw new ArgumentException("SteamID32 must be greater than 0.", nameof(steamId32));
             }
 
-            if (steamId32 % 2 != 0)
-            {
-                _idNumber = 1;
-                steamId32 -= 1;
-            }
-
-            _accountNumber = steamId32 / 2;
+            SteamId32 = steamId32;
         }
 
         public SteamId(string steamIdText)
@@ -79,14 +64,7 @@ namespace CsMarket.Steam
                 throw new ArgumentException("Value Z in \'STEAM_X:Y:Z\' must be positive.", nameof(steamIdText));
             }
 
-            _idNumber = idNumber;
-            _accountNumber = accountNumber;
-        }
-
-        public SteamId(int idNumber, int accountNumber)
-        {
-            _idNumber = idNumber;
-            _accountNumber = accountNumber;
+            SteamId32 = accountNumber * 2 + idNumber;
         }
     }
 }
