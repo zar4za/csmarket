@@ -1,4 +1,6 @@
-﻿namespace CsMarket.Steam
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CsMarket.Steam
 {
     public class SteamId
     {
@@ -13,6 +15,8 @@
         public int SteamId32 => _accountNumber * 2 + _idNumber;
 
         public long SteamId64 => SteamId64Base + SteamId32;
+
+
 
         public SteamId(long steamId64)
         {
