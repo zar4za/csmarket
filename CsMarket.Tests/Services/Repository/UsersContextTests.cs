@@ -1,4 +1,4 @@
-﻿using CsMarket.Market;
+﻿using CsMarket.Models.Core;
 using CsMarket.Repository;
 using CsMarket.Steam;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,10 @@ namespace CsMarket.Tests.Repository
         public void StoredWithEFCore_ShouldHaveSameValues()
         {
             using var context = new UsersContext(_options);
+            context.Database.EnsureCreated();
             context.Database.BeginTransaction();
 
-            var expected = new User(new Guid(), "TestName")
+            var expected = new User(new Guid(), "TestName", Role.Common)
             {
                 SteamId = new SteamId(76561199118590847)
             };
