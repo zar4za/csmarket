@@ -12,7 +12,8 @@ namespace CsMarket.Services.Authentication
         private readonly string _issuer;
         private readonly string _audience;
         private readonly int _expirationSeconds;
-        private readonly JwtSecurityTokenHandler _handler = new JwtSecurityTokenHandler();
+        private readonly JwtSecurityTokenHandler _handler = new();
+
         public JwtTokenGenerator(JwtSettings settings)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Secret));
