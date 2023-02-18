@@ -1,6 +1,9 @@
-﻿namespace CsMarket.Services.Authentication
+﻿using System.Security.Claims;
+
+namespace CsMarket.Services.Authentication
 {
-    internal interface IJwtTokenGenerator
+    public interface IJwtTokenGenerator
     {
+        string SignToken(ClaimsIdentity identity, DateTime from);
     }
 }
