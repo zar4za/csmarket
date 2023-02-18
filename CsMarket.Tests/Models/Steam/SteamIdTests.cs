@@ -91,16 +91,14 @@ namespace CsMarket.Tests.Steam
 
             var expected = new SteamId(76561199118590847);
 
-            context.SteamIds.Add(expected);
+            context.SteamId.Add(expected);
             context.SaveChanges();
 
-            var steamId = context.SteamIds.Single();
+            var steamId = context.SteamId.Single();
 
             Assert.Equal(expected.SteamId32, steamId.SteamId32);
             Assert.Equal(expected.SteamId64, steamId.SteamId64);
             Assert.Equal(expected.SteamIdText, steamId.SteamIdText);
-
-            context.Database.EnsureDeleted();
         }
     }
 
@@ -108,7 +106,7 @@ namespace CsMarket.Tests.Steam
     {
         private const string TestConnection = "Host=localhost;Port=5432;Database=csmarket;Username=postgres;Password=postgres";
 
-        public DbSet<SteamId> SteamIds { get; set; } = null!;
+        public DbSet<SteamId> SteamId { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

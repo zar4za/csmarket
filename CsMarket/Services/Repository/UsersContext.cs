@@ -1,4 +1,4 @@
-﻿using CsMarket.Market;
+﻿using CsMarket.Models.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace CsMarket.Repository

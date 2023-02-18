@@ -1,7 +1,9 @@
 ﻿using CsMarket.Steam;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CsMarket.Market
-{
+namespace CsMarket.Models.Core
+{ 
     public class User
     {
         public Guid Id { get; private set; }
@@ -10,10 +12,13 @@ namespace CsMarket.Market
 
         public string Name { get; private set; }
 
-        public User(Guid id, string name)
+        public Role Role { get; private set; }
+
+        public User(Guid id, string name, Role role)
         {
             Id = id;
             Name = name;
+            Role = role;
         }
     }
 }
