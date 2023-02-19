@@ -26,4 +26,8 @@
     <ProjectReference Include="..\CsMarket\CsMarket.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>

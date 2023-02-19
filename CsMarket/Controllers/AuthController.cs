@@ -27,7 +27,7 @@ namespace CsMarket.Controllers
             _repository = repository;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Common")]
         [HttpGet("ping")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Ping()
@@ -62,29 +62,20 @@ namespace CsMarket.Controllers
 
                 if (!isValid) throw new Exception("Cannot verify OpenID request.");
 
-                var identity = claims["openid.identity"];
-                var accountIdMatch = _accountIdRegex.Match(identity);
+                var format = new SteamIdFormatter(claims["openid.identity"]);
 
-                if (!accountIdMatch.Success) throw new Exception("Cannot capture SteamID from OpenID claim.");
-
-                var steamId = new SteamId(long.Parse(accountIdMatch.Groups[1].Value));
-
-                if (!_repository.FindUser(steamId, out User user))
+                if (!_repository.FindUser(format.ToSteamId32(), out User user))
                 {
-                    user = new User(Guid.NewGuid(), "TestName", Role.Common)
-                    {
-                        SteamId = steamId
-                    };
-
+                    user = new User(Guid.NewGuid(), format.ToSteamId32(), "TestName", Role.Common);
                     _repository.AddUser(user);
                 }
 
                 var newClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.PrimarySid, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Role, user.Role.ToString()),
-                    new Claim("steamid", user.SteamId.SteamId64.ToString())
+                    new Claim(ClaimType.Guid, user.Id.ToString()),
+                    new Claim(ClaimType.Name, user.Name),
+                    new Claim(ClaimType.Role, user.Role.ToString()),
+                    new Claim(ClaimType.SteamId, format.ToSteamId64().ToString())
                 };
 
                 var token = _tokenGen.SignToken(new ClaimsIdentity(newClaims), DateTime.UtcNow);
