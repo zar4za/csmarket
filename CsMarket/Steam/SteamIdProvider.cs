@@ -7,6 +7,7 @@ namespace CsMarket.Steam
     public class SteamIdProvider : IChallengeProvider
     {
         private const string Provider = "https://steamcommunity.com/openid/login";
+        private const string SteamIdClaimName = "openid.identity";
 
         private readonly HttpClient _httpClient;
         private readonly SteamIdProviderOptions _options;
@@ -18,6 +19,8 @@ namespace CsMarket.Steam
         }
 
         public string RequestUri => Provider + _options.BuildRequestQuery();
+
+        public string IdClaimName => SteamIdClaimName;
 
         public bool VerifyOwnership(Dictionary<string, string> openIdClaims)
         {
