@@ -18,16 +18,16 @@ namespace CsMarket.Data
             _context.SaveChanges();
         }
 
-        public User GetUser(SteamId steamId)
+        public User GetUser(int steamId)
         {
-            return _context.Users.Single(x => x.SteamId.SteamId32 == steamId.SteamId32);
+            return _context.Users.Single(x => x.SteamId == steamId);
         }
 
-        public bool FindUser(SteamId steamId, out User user)
+        public bool FindUser(int steamId, out User user)
         {
             try
             {
-                user = _context.Users.First(x => x.SteamId.SteamId32 == steamId.SteamId32);
+                user = _context.Users.First(x => x.SteamId == steamId);
                 return true;
             }
             catch

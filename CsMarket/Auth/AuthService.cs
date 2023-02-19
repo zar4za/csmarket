@@ -16,12 +16,9 @@ namespace CsMarket.Auth
             _repository = repository;
         }
 
-        public ClaimsIdentity CreateUser(SteamId steamId, string name)
+        public ClaimsIdentity CreateUser(int steamId, string name)
         {
-            var user = new User(new Guid(), name, DefaultRole)
-            {
-                SteamId = steamId
-            };
+            var user = new User(Guid.NewGuid(), steamId, name, DefaultRole);
 
             try
             {
@@ -35,7 +32,7 @@ namespace CsMarket.Auth
             return GetClaims(user);
         }
 
-        public ClaimsIdentity LoginUser(SteamId steamId)
+        public ClaimsIdentity LoginUser(int steamId)
         {
             var user = _repository.GetUser(steamId);
 
@@ -44,12 +41,13 @@ namespace CsMarket.Auth
 
         private static ClaimsIdentity GetClaims(User user)
         {
+            var format = new SteamIdFormatter(user.SteamId);
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Role, user.Role.ToString()),
-                new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                new Claim("SteamID64", user.SteamId!.SteamId64.ToString())
+                new Claim(ClaimType.Name, user.Name),
+                new Claim(ClaimType.Role, user.Role.ToString()),
+                new Claim(ClaimType.Guid, user.Id.ToString()),
+                new Claim(ClaimType.SteamId, format.ToSteamId64().ToString())
             };
 
             return new ClaimsIdentity(claims);
