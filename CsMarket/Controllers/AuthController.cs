@@ -1,12 +1,6 @@
 ﻿using CsMarket.Auth;
-using CsMarket.Auth.Jwt;
-using CsMarket.Core;
-using CsMarket.Data;
-using CsMarket.Steam;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 namespace CsMarket.Controllers
 {
@@ -14,17 +8,11 @@ namespace CsMarket.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IJwtTokenGenerator _tokenGen;
-        private readonly IChallengeProvider _provider;
-        private readonly IUserRepository _repository;
+        private readonly AuthService _auth;
 
-        private readonly Regex _accountIdRegex = new(@"^https?://steamcommunity\.com/openid/id/(7[0-9]{15,25})$", RegexOptions.Compiled);
-
-        public AuthController(IJwtTokenGenerator generator, IChallengeProvider provider, IUserRepository repository)
+        public AuthController(AuthService auth)
         {
-            _tokenGen = generator;
-            _provider = provider;
-            _repository = repository;
+            _auth = auth;
         }
 
         [Authorize(Roles = "Common")]
@@ -45,7 +33,7 @@ namespace CsMarket.Controllers
         {
             var response = new
             {
-                Url = _provider.RequestUri
+                Url = _auth.RequestUri
             };
 
             return Ok(response);
@@ -58,27 +46,7 @@ namespace CsMarket.Controllers
 
             try
             {
-                var isValid = _provider.VerifyOwnership(claims);
-
-                if (!isValid) throw new Exception("Cannot verify OpenID request.");
-
-                var format = new SteamIdFormatter(claims["openid.identity"]);
-
-                if (!_repository.FindUser(format.ToSteamId32(), out User user))
-                {
-                    user = new User(Guid.NewGuid(), format.ToSteamId32(), "TestName", Role.Common);
-                    _repository.AddUser(user);
-                }
-
-                var newClaims = new List<Claim>
-                {
-                    new Claim(ClaimType.Guid, user.Id.ToString()),
-                    new Claim(ClaimType.Name, user.Name),
-                    new Claim(ClaimType.Role, user.Role.ToString()),
-                    new Claim(ClaimType.SteamId, format.ToSteamId64().ToString())
-                };
-
-                var token = _tokenGen.SignToken(new ClaimsIdentity(newClaims), DateTime.UtcNow);
+                var token = _auth.SignInUser(claims);
 
                 return Ok(new
                 {

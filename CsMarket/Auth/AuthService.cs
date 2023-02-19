@@ -1,4 +1,5 @@
-﻿using CsMarket.Core;
+﻿using CsMarket.Auth.Jwt;
+using CsMarket.Core;
 using CsMarket.Data;
 using CsMarket.Steam;
 using System.Security.Claims;
@@ -7,50 +8,51 @@ namespace CsMarket.Auth
 {
     public class AuthService
     {
-        private const Role DefaultRole = Role.Common;
 
+
+        private readonly IChallengeProvider _provider;
+        private readonly IJwtTokenGenerator _tokenGen;
         private readonly IUserRepository _repository;
+        private readonly IUserSummaryProvider _userProvider;
 
-        public AuthService(IUserRepository repository)
+        public string RequestUri => _provider.RequestUri;
+
+        public AuthService(IChallengeProvider provider, IJwtTokenGenerator generator, IUserRepository repository, IUserSummaryProvider userProvider)
         {
+            _provider = provider;
+            _tokenGen = generator;
             _repository = repository;
+            _userProvider = userProvider;
         }
 
-        public ClaimsIdentity CreateUser(int steamId, string name)
+        public string SignInUser(Dictionary<string, string> claims)
         {
-            var user = new User(Guid.NewGuid(), steamId, name, DefaultRole);
+            var isValid = _provider.VerifyOwnership(claims);
+            
+            if (!isValid)
+                throw new Exception("Cannot verify OpenID request.");
 
-            try
+            var format = new SteamIdFormatter(claims[_provider.IdClaimName]);
+
+            if (!_repository.FindUser(format.ToSteamId32(), out User user))
             {
+                var summary = _userProvider.GetSummary(format.ToSteamId64());
+
+                user = new User(Guid.NewGuid(), format.ToSteamId32(), summary.Name, Role.Common);
                 _repository.AddUser(user);
             }
-            catch (Exception e)
+
+            var newClaims = new List<Claim>
             {
-                throw new ArgumentException("Failed to create user with such SteamID.", nameof(steamId), e);
-            }
-
-            return GetClaims(user);
-        }
-
-        public ClaimsIdentity LoginUser(int steamId)
-        {
-            var user = _repository.GetUser(steamId);
-
-            return GetClaims(user);
-        }
-
-        private static ClaimsIdentity GetClaims(User user)
-        {
-            var format = new SteamIdFormatter(user.SteamId);
-            var claims = new List<Claim>
-            {
+                new Claim(ClaimType.Guid, user.Id.ToString()),
                 new Claim(ClaimType.Name, user.Name),
                 new Claim(ClaimType.Role, user.Role.ToString()),
-                new Claim(ClaimType.Guid, user.Id.ToString()),
                 new Claim(ClaimType.SteamId, format.ToSteamId64().ToString())
             };
 
-            return new ClaimsIdentity(claims);
+            var token = _tokenGen.SignToken(new ClaimsIdentity(newClaims), DateTime.UtcNow);
+
+            return token;
         }
     }
 }

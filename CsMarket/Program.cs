@@ -1,5 +1,7 @@
+using CsMarket.Auth;
 using CsMarket.Data;
 using CsMarket.Infrastructure;
+using CsMarket.Steam;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<UsersContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); ;
 builder.Services.AddTransient<IUserRepository, UserEFRepository>();
+builder.Services.AddTransient<IUserSummaryProvider, MockUserSummaryProvider>();
+builder.Services.AddTransient<AuthService>();
 
 builder.Services.AddJwt(builder.Configuration);
 builder.Services.AddSteam(builder.Configuration);
