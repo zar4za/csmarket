@@ -1,6 +1,8 @@
 ﻿using CsMarket.Models.Core;
 using CsMarket.Services;
 using CsMarket.Services.Authentication;
+using CsMarket.Services.Repository;
+using CsMarket.Steam;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +17,15 @@ namespace CsMarket.Controllers
     {
         private readonly IJwtTokenGenerator _tokenGen;
         private readonly IChallengeProvider _provider;
+        private readonly IUserRepository _repository;
 
         private readonly Regex _accountIdRegex = new(@"^https?://steamcommunity\.com/openid/id/(7[0-9]{15,25})$", RegexOptions.Compiled);
 
-        public AuthController(IJwtTokenGenerator generator, IChallengeProvider provider)
+        public AuthController(IJwtTokenGenerator generator, IChallengeProvider provider, IUserRepository repository)
         {
             _tokenGen = generator;
             _provider = provider;
+            _repository = repository;
         }
 
         [Authorize]
@@ -64,14 +68,28 @@ namespace CsMarket.Controllers
 
                 if (!accountIdMatch.Success) throw new Exception("Cannot capture SteamID from OpenID claim.");
 
-                var steamId = accountIdMatch.Groups[1].Value;
+                var steamId = new SteamId(long.Parse(accountIdMatch.Groups[1].Value));
+
+                if (!_repository.FindUser(steamId, out User user))
+                {
+                    user = new User(Guid.NewGuid(), "TestName", Role.Common)
+                    {
+                        SteamId = steamId
+                    };
+
+                    _repository.AddUser(user);
+                }
 
                 var newClaims = new List<Claim>
                 {
-                    new Claim("steamid", steamId)
+                    new Claim(ClaimTypes.PrimarySid, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Name),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim("steamid", user.SteamId.SteamId64.ToString())
                 };
 
                 var token = _tokenGen.SignToken(new ClaimsIdentity(newClaims), DateTime.UtcNow);
+
                 return Ok(new
                 {
                     message = "success",

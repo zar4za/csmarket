@@ -1,4 +1,7 @@
 using CsMarket.Infrastructure;
+using CsMarket.Repository;
+using CsMarket.Services.Repository;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
+builder.Services.AddDbContext<UsersContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); ;
+builder.Services.AddTransient<IUserRepository, UserEFRepository>();
 builder.Services.AddJwt(builder.Configuration);
 builder.Services.AddSteam(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -6,6 +6,7 @@ namespace CsMarket.Services.Repository
     public interface IUserRepository
     {
         void AddUser(User user);
-        User FindUser(SteamId steamId);
+        User GetUser(SteamId steamId);
+        bool FindUser(SteamId steamId, out User user);
     }
 }
