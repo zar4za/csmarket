@@ -37,7 +37,7 @@ namespace CsMarket.Services.Authentication
 
         public ClaimsIdentity LoginUser(SteamId steamId)
         {
-            var user = _repository.FindUser(steamId);
+            var user = _repository.GetUser(steamId);
 
             return GetClaims(user);
         }
