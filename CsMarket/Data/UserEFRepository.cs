@@ -1,8 +1,7 @@
-﻿using CsMarket.Models.Core;
-using CsMarket.Repository;
+﻿using CsMarket.Core;
 using CsMarket.Steam;
 
-namespace CsMarket.Services.Repository
+namespace CsMarket.Data
 {
     public class UserEFRepository : IUserRepository
     {
@@ -31,7 +30,7 @@ namespace CsMarket.Services.Repository
                 user = _context.Users.First(x => x.SteamId.SteamId32 == steamId.SteamId32);
                 return true;
             }
-            catch 
+            catch
             {
                 user = null!;
                 return false;

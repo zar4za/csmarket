@@ -1,4 +1,4 @@
-﻿namespace CsMarket.Services.Authentication
+﻿namespace CsMarket.Auth
 {
     public interface IChallengeProvider
     {

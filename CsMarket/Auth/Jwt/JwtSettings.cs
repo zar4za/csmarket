@@ -1,4 +1,4 @@
-﻿namespace CsMarket.Models.Authentication
+﻿namespace CsMarket.Auth.Jwt
 {
     public class JwtSettings
     {

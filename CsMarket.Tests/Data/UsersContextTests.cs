@@ -1,9 +1,9 @@
-﻿using CsMarket.Models.Core;
-using CsMarket.Repository;
+﻿using CsMarket.Core;
+using CsMarket.Data;
 using CsMarket.Steam;
 using Microsoft.EntityFrameworkCore;
 
-namespace CsMarket.Tests.Repository
+namespace CsMarket.Tests.Data
 {
     public class UsersContextTests
     {

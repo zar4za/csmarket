@@ -1,10 +1,9 @@
-﻿using CsMarket.Models.Core;
-using CsMarket.Services;
-using CsMarket.Services.Authentication;
-using CsMarket.Services.Repository;
+﻿using CsMarket.Auth;
+using CsMarket.Auth.Jwt;
+using CsMarket.Core;
+using CsMarket.Data;
 using CsMarket.Steam;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.RegularExpressions;

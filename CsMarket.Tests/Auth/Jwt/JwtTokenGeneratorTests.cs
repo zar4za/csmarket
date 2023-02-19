@@ -1,11 +1,10 @@
-﻿using CsMarket.Models.Authentication;
-using CsMarket.Services.Authentication;
+﻿using CsMarket.Auth.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace CsMarket.Tests.Services.Authentication
+namespace CsMarket.Tests.Auth.Jwt
 {
     public class JwtTokenGeneratorTests
     {
@@ -32,7 +31,7 @@ namespace CsMarket.Tests.Services.Authentication
             var generator = new JwtTokenGenerator(settings);
 
             var token = generator.SignToken(new ClaimsIdentity(expected), from);
- 
+
             var handler = new JwtSecurityTokenHandler();
 
             var claims = handler.ValidateToken(

@@ -1,6 +1,5 @@
+using CsMarket.Data;
 using CsMarket.Infrastructure;
-using CsMarket.Repository;
-using CsMarket.Services.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

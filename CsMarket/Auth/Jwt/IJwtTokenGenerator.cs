@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace CsMarket.Services.Authentication
+namespace CsMarket.Auth.Jwt
 {
     public interface IJwtTokenGenerator
     {
