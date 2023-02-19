@@ -1,14 +1,12 @@
 ﻿using CsMarket.Steam;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CsMarket.Models.Core
-{ 
+namespace CsMarket.Core
+{
     public class User
     {
         public Guid Id { get; private set; }
 
-        public SteamId? SteamId { get; set; }
+        public SteamId SteamId { get; set; }
 
         public string Name { get; private set; }
 

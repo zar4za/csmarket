@@ -1,11 +1,8 @@
-﻿using CsMarket.Infrastructure;
-using CsMarket.Models.Steam;
-using CsMarket.Services.Authentication;
-using System.Net.Http.Headers;
+﻿using CsMarket.Auth;
+using CsMarket.Infrastructure;
 using System.Text;
-using System.Web;
 
-namespace CsMarket.Services
+namespace CsMarket.Steam
 {
     public class SteamIdProvider : IChallengeProvider
     {
@@ -47,7 +44,7 @@ namespace CsMarket.Services
             var isValid = Convert.ToBoolean(
                 StringUtils.ParseColonSeparated(response)["is_valid"]);
 
-            return isValid; 
+            return isValid;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using CsMarket.Models.Core;
-using CsMarket.Services.Repository;
+﻿using CsMarket.Core;
+using CsMarket.Data;
 using CsMarket.Steam;
 using System.Security.Claims;
 
-namespace CsMarket.Services.Authentication
+namespace CsMarket.Auth
 {
     public class AuthService
     {

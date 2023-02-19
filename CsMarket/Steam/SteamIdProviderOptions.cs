@@ -1,4 +1,4 @@
-﻿namespace CsMarket.Models.Steam
+﻿namespace CsMarket.Steam
 {
     public class SteamIdProviderOptions
     {

@@ -1,7 +1,7 @@
-﻿using CsMarket.Models.Core;
+﻿using CsMarket.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace CsMarket.Repository
+namespace CsMarket.Data
 {
     public class UsersContext : DbContext
     {

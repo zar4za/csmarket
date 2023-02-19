@@ -1,4 +1,4 @@
-﻿namespace CsMarket.Models.Core
+﻿namespace CsMarket.Core
 {
     public enum Role
     {

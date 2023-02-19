@@ -1,7 +1,7 @@
-﻿using CsMarket.Models.Core;
+﻿using CsMarket.Core;
 using CsMarket.Steam;
 
-namespace CsMarket.Services.Repository
+namespace CsMarket.Data
 {
     public interface IUserRepository
     {

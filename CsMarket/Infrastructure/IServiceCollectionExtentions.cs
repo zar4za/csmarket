@@ -1,7 +1,6 @@
-﻿using CsMarket.Models.Authentication;
-using CsMarket.Models.Steam;
-using CsMarket.Services;
-using CsMarket.Services.Authentication;
+﻿using CsMarket.Auth;
+using CsMarket.Auth.Jwt;
+using CsMarket.Steam;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

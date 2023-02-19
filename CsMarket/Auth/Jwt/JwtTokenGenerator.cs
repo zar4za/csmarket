@@ -1,10 +1,9 @@
-﻿using CsMarket.Models.Authentication;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace CsMarket.Services.Authentication
+namespace CsMarket.Auth.Jwt
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
@@ -26,7 +25,7 @@ namespace CsMarket.Services.Authentication
         public string SignToken(ClaimsIdentity identity, DateTime from)
         {
             var jwt = new JwtSecurityToken(
-                issuer: _issuer, 
+                issuer: _issuer,
                 audience: _audience,
                 claims: identity.Claims,
                 notBefore: from,
