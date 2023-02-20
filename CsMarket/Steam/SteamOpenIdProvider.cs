@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CsMarket.Steam
 {
-    public class SteamIdProvider : IChallengeProvider
+    public class SteamOpenIdProvider : IChallengeProvider
     {
         private const string Provider = "https://steamcommunity.com/openid/login";
         private const string SteamIdClaimName = "openid.identity";
@@ -12,10 +12,10 @@ namespace CsMarket.Steam
         private readonly HttpClient _httpClient;
         private readonly SteamIdProviderOptions _options;
 
-        public SteamIdProvider(IHttpClientFactory factory, IConfiguration configuration)
+        public SteamOpenIdProvider(IHttpClientFactory factory, IConfiguration configuration)
         {
             _httpClient = factory.CreateClient();
-            _options = configuration.GetSection(nameof(SteamIdProvider)).Get<SteamIdProviderOptions>();
+            _options = configuration.GetSection(nameof(SteamOpenIdProvider)).Get<SteamIdProviderOptions>();
         }
 
         public string RequestUri => Provider + _options.BuildRequestQuery();
