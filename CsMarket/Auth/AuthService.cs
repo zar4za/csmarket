@@ -38,7 +38,11 @@ namespace CsMarket.Auth
             {
                 var summary = _userProvider.GetUserSummary(format.ToSteamId64());
 
-                user = new User(Guid.NewGuid(), format.ToSteamId32(), summary.Name, Role.Common);
+                user = new User(Guid.NewGuid(), format.ToSteamId32(), summary.Name, Role.Common)
+                {
+                    AvatarUri = summary.AvatarUri,
+                    RegisterTimestamp = summary.RegisterTimestamp
+                };
                 _repository.AddUser(user);
             }
 
