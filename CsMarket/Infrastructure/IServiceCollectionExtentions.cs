@@ -39,7 +39,7 @@ namespace CsMarket.Infrastructure
         public static IServiceCollection AddSteam(this IServiceCollection services, ConfigurationManager configuration)
         {
             services.Configure<SteamIdProviderOptions>(configuration);
-            services.AddTransient<IChallengeProvider, SteamIdProvider>();
+            services.AddTransient<IChallengeProvider, SteamOpenIdProvider>();
 
             return services;
         }

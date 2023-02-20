@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace CsMarket.Infrastructure
+﻿namespace CsMarket.Infrastructure
 {
     public static class StringUtils
     {

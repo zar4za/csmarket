@@ -2,9 +2,9 @@
 {
     public class SteamIdProviderOptions
     {
-        public string ReturnTo { get; set; } = string.Empty;
+        public string ReturnTo { get; init; } = string.Empty;
 
-        public string Realm { get; set; } = string.Empty;
+        public string Realm { get; init; } = string.Empty;
 
         public string BuildRequestQuery()
         {

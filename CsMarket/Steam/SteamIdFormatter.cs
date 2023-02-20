@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace CsMarket.Steam
 {
@@ -18,7 +17,7 @@ namespace CsMarket.Steam
             var steamId64 = long.Parse(_accountIdRegex.Match(url).Groups[1].Value);
             steamId64 -= SteamId64Base;
 
-            if (steamId64 < 0) 
+            if (steamId64 < 0)
                 throw new ArgumentException($"SteamID64 must be greater than its base equal {SteamId64Base}.", nameof(steamId64));
 
             _endingBit = (int)steamId64 % 2;
@@ -29,7 +28,7 @@ namespace CsMarket.Steam
         {
             steamId64 -= SteamId64Base;
 
-            if (steamId64 < 0) 
+            if (steamId64 < 0)
                 throw new ArgumentException($"SteamID64 must be greater than its base equal {SteamId64Base}.", nameof(steamId64));
 
             _endingBit = (int)steamId64 % 2;
@@ -38,7 +37,7 @@ namespace CsMarket.Steam
 
         public SteamIdFormatter(int steamId32)
         {
-            if (steamId32 < 0) 
+            if (steamId32 < 0)
                 throw new ArgumentException("SteamID32 must be greater than 0.", nameof(steamId32));
 
             _endingBit = steamId32 % 2;
