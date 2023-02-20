@@ -9,9 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
-builder.Services.AddDbContext<UsersContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); ;
+builder.Services.AddDbContext<UsersContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IUserRepository, UserEFRepository>();
-builder.Services.AddTransient<IUserSummaryProvider, MockUserSummaryProvider>();
+builder.Services.AddTransient<IUserSummaryProvider, SteamWebApiClient>();
 builder.Services.AddTransient<AuthService>();
 
 builder.Services.AddJwt(builder.Configuration);
