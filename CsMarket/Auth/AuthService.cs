@@ -28,7 +28,7 @@ namespace CsMarket.Auth
         public string SignInUser(Dictionary<string, string> claims)
         {
             var isValid = _provider.VerifyOwnership(claims);
-            
+
             if (!isValid)
                 throw new Exception("Cannot verify OpenID request.");
 
