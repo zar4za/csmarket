@@ -2,6 +2,6 @@
 {
     public interface IUserSummaryProvider
     {
-        UserSummary GetSummary(long steamId64);
+        UserSummary GetUserSummary(long steamId64);
     }
 }

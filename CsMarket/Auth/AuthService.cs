@@ -28,7 +28,7 @@ namespace CsMarket.Auth
         public string SignInUser(Dictionary<string, string> claims)
         {
             var isValid = _provider.VerifyOwnership(claims);
-            
+
             if (!isValid)
                 throw new Exception("Cannot verify OpenID request.");
 
@@ -36,7 +36,7 @@ namespace CsMarket.Auth
 
             if (!_repository.FindUser(format.ToSteamId32(), out User user))
             {
-                var summary = _userProvider.GetSummary(format.ToSteamId64());
+                var summary = _userProvider.GetUserSummary(format.ToSteamId64());
 
                 user = new User(Guid.NewGuid(), format.ToSteamId32(), summary.Name, Role.Common);
                 _repository.AddUser(user);

@@ -2,7 +2,7 @@
 {
     public class MockUserSummaryProvider : IUserSummaryProvider
     {
-        public UserSummary GetSummary(long steamId64)
+        public UserSummary GetUserSummary(long steamId64)
         {
             return new UserSummary
             {
