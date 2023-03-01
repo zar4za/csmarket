@@ -1,6 +1,7 @@
 ﻿using CsMarket.Steam;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Newtonsoft.Json;
 using RichardSzalay.MockHttp;
 using System.Text;
 
@@ -30,6 +31,30 @@ namespace CsMarket.Tests.Steam
             Assert.Equal("Chronoa", user.Name);
             Assert.Equal("https://avatars.akamai.steamstatic.com/efe94c226c3013a696c6516f3af29405251991bd.jpg", user.AvatarUri);
             Assert.Equal(1631721009, user.RegisterTimestamp);
+        }
+
+        [Fact]
+        public void GetUserSummary_EmptyResponse_ShouldThrowException()
+        {
+            var userJson = "{\"response\": {\"players\": []}}";
+            var handler = new MockHttpMessageHandler();
+            handler.When("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=key&steamids=76561199207781376")
+                .Respond("application/json", userJson);
+            var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string>
+            {
+                { "Steam:WebApiKey", "key" }
+            }).Build();
+            var client = new HttpClient(handler);
+            var mockFactory = new Mock<IHttpClientFactory>();
+            mockFactory.Setup(x => x.CreateClient(It.IsAny<string>()))
+                .Returns(client);
+            var apiClient = new SteamWebApiClient(mockFactory.Object, config);
+
+
+            Assert.Throws<JsonException>(() =>
+            {
+                var user = apiClient.GetUserSummary(76561199207781376);
+            });
         }
     }
 }
