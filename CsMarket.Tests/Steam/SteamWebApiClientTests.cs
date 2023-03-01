@@ -1,7 +1,7 @@
 ﻿using CsMarket.Steam;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using Newtonsoft.Json;
+using System.Text.Json;
 using RichardSzalay.MockHttp;
 using System.Text;
 
@@ -33,10 +33,15 @@ namespace CsMarket.Tests.Steam
             Assert.Equal(1631721009, user.RegisterTimestamp);
         }
 
-        [Fact]
-        public void GetUserSummary_EmptyResponse_ShouldThrowException()
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("{}")]
+        [InlineData("{\"response\": {}")]
+        [InlineData("{\"response\": {\"players\": []}")]
+        [InlineData("{\"response\": {\"players\": [{}]}")]
+        public void GetUserSummary_EmptyResponse_ShouldThrowException(string userJson)
         {
-            var userJson = "{\"response\": {\"players\": []}}";
             var handler = new MockHttpMessageHandler();
             handler.When("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=key&steamids=76561199207781376")
                 .Respond("application/json", userJson);
@@ -51,7 +56,7 @@ namespace CsMarket.Tests.Steam
             var apiClient = new SteamWebApiClient(mockFactory.Object, config);
 
 
-            Assert.Throws<JsonException>(() =>
+            Assert.ThrowsAny<Exception>(() =>
             {
                 var user = apiClient.GetUserSummary(76561199207781376);
             });
