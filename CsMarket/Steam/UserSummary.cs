@@ -12,5 +12,15 @@ namespace CsMarket.Steam
 
         [JsonPropertyName("timecreated")]
         public int RegisterTimestamp { get; init; }
+
+        public UserSummary() { }
+
+        [JsonConstructor]
+        public UserSummary(string name, string avatarUri, int registerTimestamp)
+        {
+            Name = name;
+            AvatarUri = avatarUri;
+            RegisterTimestamp = registerTimestamp;
+        }
     }
 }
