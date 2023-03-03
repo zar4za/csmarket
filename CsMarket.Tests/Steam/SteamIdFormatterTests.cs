@@ -62,10 +62,10 @@ namespace CsMarket.Tests.Steam
         }
 
         [Theory]
-        [InlineData("STEAM_1:1:66138017")]
+        [InlineData("https://steamcommunity.com/openid/id/76561197960265727")]
         public void CreatedWithInvalidSteamIdString_ShouldThrowArgumentException(string uri)
         {
-            Assert.Throws<FormatException>(
+            Assert.Throws<ArgumentException>(
                 () => new SteamIdFormatter(uri));
         }
     }
