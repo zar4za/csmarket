@@ -48,8 +48,6 @@ namespace CsMarket.Steam
 
         public long ToSteamId64() => ToSteamId32() + SteamId64Base;
 
-        public string ToSteamId32Full() => $"[U:1:{ToSteamId32()}]";
-
         public string ToSteamId3() => $"{SteamIdBase}:{_endingBit}:{_account}";
 
     }
