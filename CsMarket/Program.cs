@@ -2,6 +2,7 @@ using CsMarket.Auth;
 using CsMarket.Data;
 using CsMarket.Infrastructure;
 using CsMarket.Steam;
+using CsMarket.Steam.Inventory;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<UsersContext>(x => x.UseNpgsql(builder.Configurati
 builder.Services.AddTransient<IUserRepository, UserEFRepository>();
 builder.Services.AddTransient<IUserSummaryProvider, SteamWebApiClient>();
 builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<IInventoryFactory, SteamInventoryFactory>();
 
 builder.Services.AddJwt(builder.Configuration);
 builder.Services.AddSteam(builder.Configuration);
