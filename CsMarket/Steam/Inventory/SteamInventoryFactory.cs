@@ -26,17 +26,17 @@ namespace CsMarket.Steam.Inventory
             var descriptions = new Dictionary<(long, long), Description>();
             foreach (var desc in json["descriptions"].AsArray())
             {
-                descriptions.Add((desc["instanceid"].GetValue<long>(), desc["classid"].GetValue<long>()), desc.Deserialize<Description>(options));
+                descriptions.Add((long.Parse(desc["instanceid"].GetValue<string>()), long.Parse(desc["classid"].GetValue<string>())), desc.Deserialize<Description>(options));
             }
 
             return json["assets"]!.AsArray().Select(x =>
             {
-                var classId = x["classid"].GetValue<long>();
-                var instanceId = x["instanceid"].GetValue<long>();
+                var classId = long.Parse(x["classid"].GetValue<string>());
+                var instanceId = long.Parse(x["instanceid"].GetValue<string>());
                 var description = descriptions[(instanceId, classId)];
                 return new Item()
                 {
-                    AssetId = x["assetid"].GetValue<long>(),
+                    AssetId = long.Parse(x["assetid"].GetValue<string>()),
                     ClassId = classId,
                     InstanceId = instanceId,
                     IconUrl = description.IconUrl,
