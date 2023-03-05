@@ -1,4 +1,5 @@
 ﻿using CsMarket.Core;
+using CsMarket.Market;
 using CsMarket.Steam.Inventory;
 using Moq;
 using RichardSzalay.MockHttp;
@@ -28,7 +29,7 @@ namespace CsMarket.Tests.Steam.Inventory
             var clientFactory = new Mock<IHttpClientFactory>();
             clientFactory.Setup(x => x.CreateClient(It.IsAny<string>()))
                 .Returns(client);
-            var factory = new SteamInventoryFactory(clientFactory.Object);
+            var factory = new SteamInventoryFactory(clientFactory.Object, new DictionaryDescriptionStorage());
 
 
             var inventory = factory.GetInventory(76561198106556563);
