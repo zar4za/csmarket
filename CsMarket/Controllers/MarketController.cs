@@ -1,5 +1,6 @@
 ﻿using CsMarket.Auth;
 using CsMarket.Core;
+using CsMarket.Data;
 using CsMarket.Market;
 using CsMarket.Steam.Inventory;
 using Microsoft.AspNetCore.Http;
@@ -14,13 +15,13 @@ namespace CsMarket.Controllers
     {
         private readonly IInventoryFactory _inventoryFactory;
         private readonly IMarketService _market;
-        private readonly IDescriptionStorage _descriptionStorage;
+        private readonly IDescriptionRepository _descriptionRepository;
 
-        public MarketController(IInventoryFactory factory, IMarketService market, IDescriptionStorage storage)
+        public MarketController(IInventoryFactory factory, IMarketService market, IDescriptionRepository repository)
         {
             _inventoryFactory = factory;
             _market = market;
-            _descriptionStorage = storage;
+            _descriptionRepository = repository;
         }
 
         [HttpPost("list")]
@@ -61,14 +62,19 @@ namespace CsMarket.Controllers
         {
             var listings = _market.GetListings(count);
 
-            var result = listings.Select(x => new
+            var result = listings.Select((x) =>
             {
-                assetid = x.AssetId,
-                classid = x.ClassId,
-                icon_url = _descriptionStorage.GetDescription(x.InstanceId, x.ClassId).IconUrl,
-                instanceid = x.InstanceId,
-                market_hash_name = _descriptionStorage.GetDescription(x.InstanceId, x.ClassId).MarketHashName,
-                price = x.Price
+                var description = _descriptionRepository.GetDescription(x.ClassId);
+
+                return new
+                {
+                    assetid = x.AssetId,
+                    classid = x.ClassId,
+                    icon_url = description.IconUrl,
+                    instanceid = x.InstanceId,
+                    market_hash_name = description.MarketHashName,
+                    price = x.Price
+                };
             });
 
             return Ok(result);

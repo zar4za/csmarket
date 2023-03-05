@@ -19,7 +19,7 @@ namespace CsMarket.Market
 
         public void PutOnSale(Item item, decimal price)
         {
-            var listing = new Data.Listing()
+            var listing = new Data.Entity.Listing
             {
                 AssetId = item.AssetId,
                 ClassId = item.ClassId,

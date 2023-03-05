@@ -1,4 +1,6 @@
 ﻿using CsMarket.Core;
+using CsMarket.Data;
+using CsMarket.Data.Entity;
 using CsMarket.Market;
 using CsMarket.Steam.Inventory;
 using Moq;
@@ -18,9 +20,8 @@ namespace CsMarket.Tests.Steam.Inventory
         public void GetInventory_SteamReturnsJson_ShouldReturnInventory()
         {
             var json = File.ReadAllText("../../../testdata/steam/inventory/SteamReturnsJson.json");
-            Assert.NotNull(json);
             var expectedJson = File.ReadAllText("../../../testdata/steam/inventory/SteamReturnsJsonExpected.json");
-            Assert.NotNull(expectedJson);
+
             var expectedInventory = JsonSerializer.Deserialize<List<Item>>(expectedJson);
             var handler = new MockHttpMessageHandler();
             handler.When("https://steamcommunity.com/inventory/76561198106556563/730/2")
@@ -29,7 +30,18 @@ namespace CsMarket.Tests.Steam.Inventory
             var clientFactory = new Mock<IHttpClientFactory>();
             clientFactory.Setup(x => x.CreateClient(It.IsAny<string>()))
                 .Returns(client);
-            var factory = new SteamInventoryFactory(clientFactory.Object, new DictionaryDescriptionStorage());
+
+            var dictionary = new Dictionary<long, Description>();
+            var repository = new Mock<IDescriptionRepository>();
+            repository.Setup(x => x.AddDescription(It.IsAny<Description>()))
+                .Callback<Description>((x) =>
+                {
+                    dictionary.Add(x.ClassId, x);
+                });
+
+            repository.Setup(x => x.GetDescription(It.IsAny<long>()))
+                .Returns<long>(x => dictionary[x]);
+            var factory = new SteamInventoryFactory(clientFactory.Object, repository.Object);
 
 
             var inventory = factory.GetInventory(76561198106556563);

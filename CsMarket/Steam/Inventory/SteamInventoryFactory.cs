@@ -1,4 +1,5 @@
 ﻿using CsMarket.Core;
+using CsMarket.Data;
 using CsMarket.Data.Entity;
 using CsMarket.Market;
 using System.Text.Json;
@@ -10,12 +11,12 @@ namespace CsMarket.Steam.Inventory
     {
         private const string InventoryEndpoint = "https://steamcommunity.com/inventory/{0}/730/2";
         private readonly HttpClient _httpClient;
-        private readonly IDescriptionStorage _descriptionStorage;
+        private readonly IDescriptionRepository _descriptionRepository;
 
-        public SteamInventoryFactory(IHttpClientFactory factory, IDescriptionStorage storage)
+        public SteamInventoryFactory(IHttpClientFactory factory, IDescriptionRepository repository)
         {
             _httpClient = factory.CreateClient();
-            _descriptionStorage = storage;
+            _descriptionRepository = repository;
         }
 
         public IEnumerable<Item> GetInventory(long steamId64)
@@ -29,14 +30,13 @@ namespace CsMarket.Steam.Inventory
 
             foreach (var desc in json["descriptions"].AsArray())
             {
-                _descriptionStorage.AddDescription(
-                    description: desc.Deserialize<Description>(options));
+                _descriptionRepository.AddDescription(desc.Deserialize<Description>(options));
             }
 
             return json["assets"]!.AsArray().Select(x =>
             {
                 var asset = x.Deserialize<Asset>(options);
-                var description = _descriptionStorage.GetDescription(asset.InstanceId, asset.ClassId);
+                var description = _descriptionRepository.GetDescription(asset.ClassId);
 
                 return new Item()
                 {
