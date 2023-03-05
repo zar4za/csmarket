@@ -13,11 +13,11 @@ namespace CsMarket.Tests.Data
             using var connection = new SqliteConnection("Filename=:memory:");
             connection.Open();
 
-            var options = new DbContextOptionsBuilder<UsersContext>()
+            var options = new DbContextOptionsBuilder<MarketContext>()
                 .UseSqlite(connection)
                 .Options;
 
-            using var context = new UsersContext(options);
+            using var context = new MarketContext(options);
 
             var user = new User(Guid.NewGuid(), 1000, "testname", Role.Common)
             {
@@ -38,11 +38,11 @@ namespace CsMarket.Tests.Data
             using var connection = new SqliteConnection("Filename=:memory:");
             connection.Open();
 
-            var options = new DbContextOptionsBuilder<UsersContext>()
+            var options = new DbContextOptionsBuilder<MarketContext>()
                 .UseSqlite(connection)
                 .Options;
 
-            using var context = new UsersContext(options);
+            using var context = new MarketContext(options);
 
             var expected = new User(Guid.NewGuid(), 1000, "testname", Role.Common)
             {
@@ -66,7 +66,7 @@ namespace CsMarket.Tests.Data
             using var connection = new SqliteConnection("Filename=:memory:");
             connection.Open();
 
-            var options = new DbContextOptionsBuilder<UsersContext>()
+            var options = new DbContextOptionsBuilder<MarketContext>()
                 .UseSqlite(connection)
                 .Options;
 
@@ -76,7 +76,7 @@ namespace CsMarket.Tests.Data
                 RegisterTimestamp = 10000
             };
 
-            using var context = new UsersContext(options);
+            using var context = new MarketContext(options);
 
 
             var repo = new UserEFRepository(context);

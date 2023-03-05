@@ -4,9 +4,9 @@ namespace CsMarket.Data
 {
     public class UserEFRepository : IUserRepository
     {
-        private readonly UsersContext _context;
+        private readonly MarketContext _context;
 
-        public UserEFRepository(UsersContext context)
+        public UserEFRepository(MarketContext context)
         {
             _context = context;
         }
