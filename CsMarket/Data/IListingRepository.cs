@@ -1,4 +1,6 @@
-﻿namespace CsMarket.Data
+﻿using CsMarket.Data.Entity;
+
+namespace CsMarket.Data
 {
     public interface IListingRepository
     {

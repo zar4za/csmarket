@@ -1,4 +1,4 @@
-﻿using CsMarket.Steam.Inventory;
+﻿using CsMarket.Data.Entity;
 
 namespace CsMarket.Market
 {

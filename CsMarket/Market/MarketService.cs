@@ -12,7 +12,7 @@ namespace CsMarket.Market
             _repository = repository;
         }
 
-        public IEnumerable<Data.Listing> GetListings(int count)
+        public IEnumerable<Data.Entity.Listing> GetListings(int count)
         {
             return _repository.GetListings(count);
         }

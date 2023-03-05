@@ -6,6 +6,6 @@ namespace CsMarket.Market
     {
         void PutOnSale(Item item, decimal price);
 
-        IEnumerable<Data.Listing> GetListings(int count);
+        IEnumerable<Data.Entity.Listing> GetListings(int count);
     }
 }

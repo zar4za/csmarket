@@ -1,14 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace CsMarket.Steam.Inventory
+namespace CsMarket.Data.Entity
 {
     public class Description
     {
+        [Key]
         [JsonPropertyName("classid")]
         public long ClassId { get; init; }
-
-        [JsonPropertyName("instanceid")]
-        public long InstanceId { get; init; }
 
         [JsonPropertyName("market_hash_name")]
         public string MarketHashName { get; init; } = string.Empty;

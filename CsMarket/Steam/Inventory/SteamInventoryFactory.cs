@@ -1,4 +1,5 @@
 ﻿using CsMarket.Core;
+using CsMarket.Data.Entity;
 using CsMarket.Market;
 using System.Text.Json;
 using System.Text.Json.Nodes;
