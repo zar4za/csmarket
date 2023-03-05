@@ -53,5 +53,13 @@ namespace CsMarket.Controllers
 
             return Ok();
         }
+
+        [HttpGet("listings")]
+        public IActionResult GetListings(int count = 25)
+        {
+            var listings = _market.GetListings(count);
+
+            return Ok(listings);
+        }
     }
 }

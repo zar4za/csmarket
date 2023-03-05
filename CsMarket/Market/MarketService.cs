@@ -12,6 +12,11 @@ namespace CsMarket.Market
             _repository = repository;
         }
 
+        public IEnumerable<Data.Listing> GetListings(int count)
+        {
+            return _repository.GetListings(count);
+        }
+
         public void PutOnSale(Item item, decimal price)
         {
             var listing = new Data.Listing()

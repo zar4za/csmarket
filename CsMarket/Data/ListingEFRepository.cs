@@ -14,5 +14,10 @@
             _context.Listings.Add(listing);
             _context.SaveChanges();
         }
+
+        public IEnumerable<Listing> GetListings(int count)
+        {
+            return _context.Listings.Take(count);
+        }
     }
 }
