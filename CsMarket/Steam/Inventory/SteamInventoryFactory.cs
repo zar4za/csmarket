@@ -1,4 +1,5 @@
 ﻿using CsMarket.Core;
+using CsMarket.Market;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -8,10 +9,12 @@ namespace CsMarket.Steam.Inventory
     {
         private const string InventoryEndpoint = "https://steamcommunity.com/inventory/{0}/730/2";
         private readonly HttpClient _httpClient;
+        private readonly IDescriptionStorage _descriptionStorage;
 
-        public SteamInventoryFactory(IHttpClientFactory factory)
+        public SteamInventoryFactory(IHttpClientFactory factory, IDescriptionStorage storage)
         {
             _httpClient = factory.CreateClient();
+            _descriptionStorage = storage;
         }
 
         public IEnumerable<Item> GetInventory(long steamId64)
@@ -23,24 +26,24 @@ namespace CsMarket.Steam.Inventory
                 NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
             };
 
-            var descriptions = new Dictionary<(long, long), Description>();
             foreach (var desc in json["descriptions"].AsArray())
             {
-                descriptions.Add((long.Parse(desc["instanceid"].GetValue<string>()), long.Parse(desc["classid"].GetValue<string>())), desc.Deserialize<Description>(options));
+                _descriptionStorage.AddDescription(
+                    description: desc.Deserialize<Description>(options));
             }
 
             return json["assets"]!.AsArray().Select(x =>
             {
-                var classId = long.Parse(x["classid"].GetValue<string>());
-                var instanceId = long.Parse(x["instanceid"].GetValue<string>());
-                var description = descriptions[(instanceId, classId)];
+                var asset = x.Deserialize<Asset>(options);
+                var description = _descriptionStorage.GetDescription(asset.InstanceId, asset.ClassId);
+
                 return new Item()
                 {
-                    AssetId = long.Parse(x["assetid"].GetValue<string>()),
-                    ClassId = classId,
-                    InstanceId = instanceId,
-                    IconUrl = description.IconUrl,
-                    MarketHashName = description.MarketHashName
+                    AssetId = asset.AssetId,
+                    ClassId = asset.ClassId,
+                    InstanceId = asset.InstanceId,
+                    MarketHashName = description.MarketHashName,
+                    IconUrl = description.IconUrl
                 };
             });
         }

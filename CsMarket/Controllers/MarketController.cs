@@ -14,11 +14,13 @@ namespace CsMarket.Controllers
     {
         private readonly IInventoryFactory _inventoryFactory;
         private readonly IMarketService _market;
+        private readonly IDescriptionStorage _descriptionStorage;
 
-        public MarketController(IInventoryFactory factory, IMarketService market)
+        public MarketController(IInventoryFactory factory, IMarketService market, IDescriptionStorage storage)
         {
             _inventoryFactory = factory;
             _market = market;
+            _descriptionStorage = storage;
         }
 
         [HttpPost("list")]
@@ -59,7 +61,17 @@ namespace CsMarket.Controllers
         {
             var listings = _market.GetListings(count);
 
-            return Ok(listings);
+            var result = listings.Select(x => new
+            {
+                assetid = x.AssetId,
+                classid = x.ClassId,
+                icon_url = _descriptionStorage.GetDescription(x.InstanceId, x.ClassId).IconUrl,
+                instanceid = x.InstanceId,
+                market_hash_name = _descriptionStorage.GetDescription(x.InstanceId, x.ClassId).MarketHashName,
+                price = x.Price
+            });
+
+            return Ok(result);
         }
     }
 }
