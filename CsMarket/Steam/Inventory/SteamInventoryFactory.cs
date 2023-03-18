@@ -4,20 +4,11 @@ using System.Text.Json.Nodes;
 
 namespace CsMarket.Steam.Inventory
 {
-    public class SteamInventoryFactory : IInventoryFactory
+    public abstract class SteamInventoryFactory : IInventoryFactory
     {
-        private const string InventoryEndpoint = "https://steamcommunity.com/inventory/{0}/730/2";
-        private readonly HttpClient _httpClient;
-
-        public SteamInventoryFactory(IHttpClientFactory factory)
-        {
-            _httpClient = factory.CreateClient();
-        }
-
         public IEnumerable<Item> GetInventory(long steamId64)
         {
-            var response = _httpClient.GetStreamAsync(string.Format(InventoryEndpoint, steamId64)).Result;
-            var json = JsonNode.Parse(response);
+            var json = FetchInventoryJson(steamId64).Result;
             var options = new JsonSerializerOptions()
             {
                 NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
@@ -44,5 +35,7 @@ namespace CsMarket.Steam.Inventory
                 };
             });
         }
+
+        protected abstract Task<JsonNode> FetchInventoryJson(long steamId64);
     }
 }
