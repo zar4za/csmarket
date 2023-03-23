@@ -1,17 +1,36 @@
 'use client';
-import Image from "next/image";
+import Image from 'next/image';
+import styles from './User.module.css';
+
+const formatConfig = {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 2,
+    currencyDisplay: 'symbol',
+};
+
+const formatter = new Intl.NumberFormat('ru-RU', formatConfig);
 
 export default function User() {
-    return <div>
-        <Image 
-            src="/static/images/template.jpg"
-            width={100}
-            height={100}
+    const balance = 1000000;
+
+    return <div className={styles.user}>
+        <button 
+            className={styles.balance}
+            onClick={() => alert(formatter.format(balance))}
+        >
+            <Image 
+                className={styles.icon}
+                src='/static/icons/plus.svg'
+                width={24}
+                height={24}
+            />
+            {formatter.format(balance)}
+        </button>
+        <Image className={styles.avatar}
+            src='/static/images/avatar_medium.jpg'
+            width={40}
+            height={40}
         />
-        <span>Template name</span>
-        <br />
-        <span>{localStorage.getItem("Bearer").split('.')[2]}</span>
-        <br />
-        <span>{document.cookie.split('.')[2]}</span>
     </div>
 }

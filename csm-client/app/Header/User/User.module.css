@@ -1,0 +1,25 @@
+.avatar {
+    border-radius: 20px;
+}
+
+.user {
+    max-height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon {
+    margin-right: 8px;
+}
+
+.balance {
+    margin-right: 16px;
+    max-width: 170px;
+    background-color: #316890;
+    border-width: 0;
+    border-radius: 20px;
+    padding: 8px 8px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
