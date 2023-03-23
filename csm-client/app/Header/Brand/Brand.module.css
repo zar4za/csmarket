@@ -1,0 +1,17 @@
+.brand {
+    display: flex;
+    max-width: 260px;
+    max-height: 40px;
+    padding: 0 16px;
+}
+
+.logo {
+    color: #316890;
+}
+
+.brandname {
+    font-size: 20px;
+    font-weight: 900;
+    margin-left: 16px;
+    line-height: 40px;
+}
