@@ -1,7 +1,7 @@
 import styles from './Header.module.css';
-import Brand from './Brand/Brand';
+import Brand from '@/components/Brand/Brand';
 import Link from 'next/link';
-import UserContainer from './UserContainer/UserContainer';
+import UserContainer from '@/components/UserContainer/UserContainer';
 
 export default function Header() {
     return <header className={styles.header}>

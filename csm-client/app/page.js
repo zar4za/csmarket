@@ -1,8 +1,8 @@
-import Header from './Header/Header';
+import Header from '@/components/Header/Header';
 import styles from './page.module.css';
 import Image from 'next/image';
-import SignIn from './Header/SignIn/SignIn';
-import Footer from './Footer/Footer';
+import SignIn from '@/components/SignIn/SignIn';
+import Footer from '@/components/Footer/Footer';
 
 export default function Home() {
   return (
