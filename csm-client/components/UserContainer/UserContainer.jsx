@@ -1,6 +1,6 @@
 'use client';
-import SignIn from '@/components/SignIn/SignIn';
-import User from '@/components/User/User';
+import SignIn from '@comp/SignIn/SignIn';
+import User from '@comp/User/User';
 
 export default function UserContainer() {
     if (!document.cookie.includes("Bearer"))
