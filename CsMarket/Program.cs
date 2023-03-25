@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 
-builder.Services.AddDbContext<UsersContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddTransient<IUserRepository, UserEFRepository>();
+builder.Services.AddDbContext<CsMarketContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddTransient<IUserRepository, EFCoreRepository>();
 builder.Services.AddTransient<IUserSummaryProvider, SteamWebApiClient>();
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<IInventoryFactory, SteamSupplyInventoryFactory>();

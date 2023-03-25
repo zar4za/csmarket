@@ -1,4 +1,5 @@
 ﻿using CsMarket.Auth;
+using CsMarket.Core;
 using CsMarket.Steam.Inventory;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,9 @@ namespace CsMarket.Controllers
 
                 return Ok(inventory);
             }
-            catch
+            catch (Exception ex)
             {
-                return Unauthorized();
+                return Unauthorized(ex);
             }
         }
     }

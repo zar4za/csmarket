@@ -15,25 +15,13 @@ namespace CsMarket.Controllers
             _auth = auth;
         }
 
-        [Authorize(Roles = "Common")]
-        [HttpGet("ping")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Ping()
-        {
-            var response = new
-            {
-                Message = "pong"
-            };
-
-            return Ok(response);
-        }
 
         [HttpGet("request")]
-        public IActionResult RequestChallengeUri()
+        public IActionResult RequestChallenge()
         {
             var response = new
             {
-                Url = _auth.RequestUri
+                url = _auth.RequestUri
             };
 
             return Ok(response);
@@ -50,7 +38,6 @@ namespace CsMarket.Controllers
 
                 return Ok(new
                 {
-                    message = "success",
                     token
                 });
             }

@@ -1,4 +1,4 @@
-﻿using CsMarket.Core;
+﻿using CsMarket.Data.Entities;
 
 namespace CsMarket.Data
 {

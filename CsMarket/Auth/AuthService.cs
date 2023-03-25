@@ -1,6 +1,7 @@
 ﻿using CsMarket.Auth.Jwt;
 using CsMarket.Core;
 using CsMarket.Data;
+using CsMarket.Data.Entities;
 using CsMarket.Steam;
 using System.Security.Claims;
 
@@ -34,21 +35,24 @@ namespace CsMarket.Auth
 
             var format = new SteamIdFormatter(claims[_provider.IdClaimName]);
 
-            if (!_repository.FindUser(format.ToSteamId32(), out User user))
+            if (!_repository.FindUser(format.ToSteamId32(), out Data.Entities.User user))
             {
                 var summary = _userProvider.GetUserSummary(format.ToSteamId64());
 
-                user = new User(Guid.NewGuid(), format.ToSteamId32(), summary.Name, Role.Common)
+                user = new Data.Entities.User()
                 {
-                    AvatarUri = summary.AvatarUri,
-                    RegisterTimestamp = summary.RegisterTimestamp
+                    SteamId32 = format.ToSteamId32(),
+                    Name = summary.Name,
+                    Role = Role.Common,
+                    AvatarHash = summary.AvatarUri,
+                    SignupUnixMilli = summary.RegisterTimestamp
                 };
+
                 _repository.AddUser(user);
             }
 
             var newClaims = new List<Claim>
             {
-                new Claim(ClaimType.Guid, user.Id.ToString()),
                 new Claim(ClaimType.Name, user.Name),
                 new Claim(ClaimType.Role, user.Role.ToString()),
                 new Claim(ClaimType.SteamId, format.ToSteamId64().ToString())

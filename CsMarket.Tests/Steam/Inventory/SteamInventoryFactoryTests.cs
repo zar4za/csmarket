@@ -28,7 +28,7 @@ namespace CsMarket.Tests.Steam.Inventory
             var clientFactory = new Mock<IHttpClientFactory>();
             clientFactory.Setup(x => x.CreateClient(It.IsAny<string>()))
                 .Returns(client);
-            var factory = new SteamInventoryFactory(clientFactory.Object);
+            var factory = new SteamCommunityInventoryFactory(clientFactory.Object);
 
 
             var inventory = factory.GetInventory(76561198106556563);
