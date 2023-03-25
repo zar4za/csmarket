@@ -21,7 +21,7 @@ export default function Home() {
       <h3 className={styles.trade}>Торгуй скинами как по кайфу - ваще ништяковая тема ежжи! </h3>
       <SignIn />
     </main>
-    <Footer />
+    <Footer transparent/>
   </>
   )
 }
