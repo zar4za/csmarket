@@ -2,6 +2,7 @@ import Header from './Header/Header';
 import styles from './page.module.css';
 import Image from 'next/image';
 import SignIn from './Header/SignIn/SignIn';
+import Footer from './Footer/Footer';
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <h3 className={styles.trade}>Торгуй скинами как по кайфу - ваще ништяковая тема ежжи! </h3>
       <SignIn />
     </main>
+    <Footer />
   </>
   )
 }
