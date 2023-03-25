@@ -12,11 +12,11 @@ namespace CsMarket.Tests.Data
             var connection = new SqliteConnection("Filename=:memory:");
             connection.Open();
 
-            var options = new DbContextOptionsBuilder<UsersContext>()
+            var options = new DbContextOptionsBuilder<CsMarketContext>()
                 .UseSqlite(connection)
                 .Options;
 
-            using var context = new UsersContext(options);
+            using var context = new CsMarketContext(options);
 
             Assert.NotNull(context.Users);
             connection.Dispose();

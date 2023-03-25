@@ -1,12 +1,12 @@
-﻿using CsMarket.Core;
+﻿using CsMarket.Data.Entities;
 
 namespace CsMarket.Data
 {
-    public class UserEFRepository : IUserRepository
+    public class EFCoreRepository : IUserRepository
     {
-        private readonly UsersContext _context;
+        private readonly CsMarketContext _context;
 
-        public UserEFRepository(UsersContext context)
+        public EFCoreRepository(CsMarketContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace CsMarket.Data
         {
             try
             {
-                user = _context.Users.First(x => x.SteamId == steamId);
+                user = _context.Users.First(x => x.SteamId32 == steamId);
                 return true;
             }
             catch
