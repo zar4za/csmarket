@@ -4,7 +4,7 @@ namespace CsMarket.Market
 {
     public interface IMarketService
     {
-        void ListItem(long SteamId32, Listing listing);
+        void ListItem(long SteamId32, IInitialListing listing);
 
         void UpdateItem(long SteamId32, long assetId, decimal price);
 

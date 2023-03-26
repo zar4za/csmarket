@@ -17,7 +17,7 @@ namespace CsMarket.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles="Seller,Admin")]
+        [Authorize(Roles="Common,Seller,Admin")]
         public IActionResult ListItem(Listing listing)
         {
             _market.ListItem(User.GetSteamId(), listing);
