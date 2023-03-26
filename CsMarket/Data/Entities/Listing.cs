@@ -9,9 +9,6 @@ namespace CsMarket.Data.Entities
         public Guid Id { get; set; }
 
         [Required]
-        public User Owner { get; init; } = null!;
-
-        [Required]
         public Asset Asset { get; init; } = null!;
 
         [Required]

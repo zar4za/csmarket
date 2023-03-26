@@ -8,6 +8,9 @@ namespace CsMarket.Data.Entities
         public long AssetId { get; init; }
 
         [Required]
+        public User Owner { get; init; } = null!;
+
+        [Required]
         public AssetClass ClassName { get; init; } = null!;
     }
 }
