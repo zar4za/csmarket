@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CsMarket.Tests.Data
 {
-    public class UserEFRepositoryTests
+    public class EFCoreRepositoryTests
     {
         [Fact]
         public void AddUser_UserNotNull_ShouldSaveChanges()
@@ -96,6 +96,58 @@ namespace CsMarket.Tests.Data
 
             Assert.False(hasFound);
             Assert.Null(user);
+        }
+
+        [Fact]
+        public void AddListing_AssetExists_ShouldReferenceAsset()
+        {
+            using var connection = new SqliteConnection("Filename=:memory:");
+            connection.Open();
+            var options = new DbContextOptionsBuilder<CsMarketContext>()
+                .UseSqlite(connection)
+                .Options;
+            using var context = new CsMarketContext(options);
+            var repo = new EFCoreRepository(context);
+
+            var className = new AssetClass()
+            {
+                ClassId = 10,
+                IconUrl = "somehash",
+                MarketHashName = "HashName"
+            };
+            var user = new User()
+            {
+                Name = "testname",
+                SteamId32 = 1200,
+                AvatarHash = "anotherHash",
+                Role = Role.Seller,
+                SignupUnixMilli = 1300
+            };
+
+            context.Add(className);
+            context.Users.Add(user);
+
+            var asset = new Asset()
+            {
+                AssetId = 1000,
+                ClassName = className,
+                Owner = user
+            };
+
+            context.Assets.Add(asset);
+            context.SaveChanges();
+
+            var listing = new Listing()
+            {
+                Id = Guid.NewGuid(),
+                Asset = repo.SingleAsset(1000)!,
+                Price = 10.0m,
+                State = Market.ListingState.Listed
+            };
+
+            repo.AddListing(listing);
+
+            Assert.Same(asset, listing.Asset);
         }
     }
 }
