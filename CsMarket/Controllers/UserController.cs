@@ -23,9 +23,7 @@ namespace CsMarket.Controllers
         {
             try
             {
-                var steamIdClaim = HttpContext.User.FindFirst(ClaimType.SteamId)?.Value;
-                var steamId64 = long.Parse(steamIdClaim!);
-                var inventory = _inventoryFactory.GetInventory(steamId64);
+                var inventory = _inventoryFactory.GetInventory(User.GetSteamId());
 
                 return Ok(inventory);
             }
