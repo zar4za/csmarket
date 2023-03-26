@@ -7,6 +7,7 @@ namespace CsMarket.Data
     {
         public DbSet<User> Users { get; init; } = null!;
         public DbSet<Listing> Listings { get; init; } = null!;
+        public DbSet<Asset> Assets { get; init; } = null!;
 
         public CsMarketContext(DbContextOptions<CsMarketContext> options) : base(options)
         {
