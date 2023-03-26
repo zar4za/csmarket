@@ -12,6 +12,12 @@ namespace CsMarket.Data
             _context = context;
         }
 
+        public void AddListing(Listing listing)
+        {
+            _context.Listings.Add(listing);
+            _context.SaveChanges();
+        }
+
         public void AddUser(User user)
         {
             _context.Users.Add(user);
@@ -42,6 +48,18 @@ namespace CsMarket.Data
             return query
                 .Skip(offset)
                 .Take(count);
+        }
+
+        public Asset? SingleAsset(long assetId)
+        {
+            try
+            {
+                return _context.Assets.Where(x => x.AssetId == assetId).First();
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
     }
 }

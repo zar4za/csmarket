@@ -18,7 +18,7 @@ namespace CsMarket.Controllers
             _inventoryFactory = factory;
         }
 
-        [HttpGet]
+        [HttpGet("inventory")]
         public IActionResult GetInventory()
         {
             try

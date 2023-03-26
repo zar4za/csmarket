@@ -19,9 +19,22 @@ namespace CsMarket.Market
             return query.ProjectToType<Listing>();
         }
 
-        public void ListItem(long SteamId32, Listing listing)
+        public void ListItem(long SteamId32, IInitialListing init)
         {
-            throw new NotImplementedException();
+            var asset = _repository.SingleAsset(init.AssetId);
+
+            if (asset == null)
+                throw new NotImplementedException();
+
+            var listing = new Data.Entities.Listing()
+            {
+                Id = Guid.NewGuid(),
+                Asset = asset,
+                Price = init.Price,
+                State = ListingState.Listed
+            };
+
+            _repository.AddListing(listing);
         }
 
         public void UpdateItem(long SteamId32, long assetId, decimal price)
