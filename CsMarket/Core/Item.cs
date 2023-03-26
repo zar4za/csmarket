@@ -16,7 +16,7 @@ namespace CsMarket.Core
         [JsonPropertyName("market_hash_name")]
         public string MarketHashName { get; init; } = string.Empty;
 
-        [JsonPropertyName("icon_url_large")]
+        [JsonPropertyName("icon_url")]
         public string IconUrl { get; init; } = string.Empty;
     }
 }

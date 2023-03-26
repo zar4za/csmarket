@@ -1,8 +1,9 @@
 ﻿using CsMarket.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CsMarket.Data
 {
-    public class EFCoreRepository : IUserRepository
+    public class EFCoreRepository : IUserRepository, IListingRepository
     {
         private readonly CsMarketContext _context;
 
@@ -29,6 +30,18 @@ namespace CsMarket.Data
                 user = null!;
                 return false;
             }
+        }
+
+        public IQueryable<Listing> GetActiveListings(int count, int offset, string? marketHashName = null)
+        {
+            var query = _context.Listings.AsNoTracking();
+
+            if (marketHashName != null)
+                query = query.Where(l => l.Asset.ClassName.MarketHashName == marketHashName);
+
+            return query
+                .Skip(offset)
+                .Take(count);
         }
     }
 }

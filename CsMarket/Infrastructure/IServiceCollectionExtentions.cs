@@ -1,9 +1,12 @@
 ﻿using CsMarket.Auth;
 using CsMarket.Auth.Jwt;
 using CsMarket.Steam;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 namespace CsMarket.Infrastructure
@@ -77,6 +80,23 @@ namespace CsMarket.Infrastructure
                     }
                 });
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddMapping(this IServiceCollection services)
+        {
+            var config = new TypeAdapterConfig();
+
+            TypeAdapterConfig<Data.Entities.Listing, Market.Listing>
+                .NewConfig()
+                .Map(dest => dest.ListingId, src => src.Id)
+                .Map(dest => dest.Price, src => src.Price)
+                .Map(dest => dest.AssetId, src => src.Asset.AssetId)
+                .Map(dest => dest.IconHash, src => src.Asset.ClassName.IconUrl)
+                .Map(dest => dest.MarketHashName, src => src.Asset.ClassName.MarketHashName);
+
+            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 
             return services;
         }
