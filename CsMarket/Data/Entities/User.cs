@@ -10,6 +10,7 @@ namespace CsMarket.Data.Entities
 
         public long SignupUnixMilli { get; set; }
 
+        [Required]
         public Role Role { get; set; }
 
         [Required]
