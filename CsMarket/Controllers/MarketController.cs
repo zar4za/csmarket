@@ -32,6 +32,13 @@ namespace CsMarket.Controllers
                     error = ex.Message
                 });
             }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(new
+                {
+                    error = ex.Message + " Try refreshing your inventory."
+                });
+            }
         }
 
         [HttpGet]
