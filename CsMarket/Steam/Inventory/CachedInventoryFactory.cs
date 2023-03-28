@@ -16,8 +16,6 @@ namespace CsMarket.Steam.Inventory
 
         public IEnumerable<Item> GetInventory(long steamId64)
         {
-            _repository.GetInventory()
-
 
             throw new NotImplementedException();
         }

@@ -18,11 +18,20 @@ namespace CsMarket.Controllers
 
         [HttpPost]
         [Authorize(Roles="Common,Seller,Admin")]
-        public IActionResult ListItem(Listing listing)
+        public IActionResult ListItem(long assetId, decimal price)
         {
-            _market.ListItem(User.GetSteamId(), listing);
-
-            return Ok();
+            try
+            {
+                _market.ListItem(User.GetSteamId(), assetId, price);
+                return Ok();
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(new
+                {
+                    error = ex.Message
+                });
+            }
         }
 
         [HttpGet]
