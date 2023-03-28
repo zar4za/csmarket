@@ -13,16 +13,16 @@ namespace CsMarket.Auth
 
         private readonly IChallengeProvider _provider;
         private readonly IJwtTokenGenerator _tokenGen;
-        private readonly IUserRepository _repository;
+        private readonly IdentityContext _identityContext;
         private readonly IUserSummaryProvider _userProvider;
 
         public string RequestUri => _provider.RequestUri;
 
-        public AuthService(IChallengeProvider provider, IJwtTokenGenerator generator, IUserRepository repository, IUserSummaryProvider userProvider)
+        public AuthService(IChallengeProvider provider, IJwtTokenGenerator generator, IdentityContext context, IUserSummaryProvider userProvider)
         {
             _provider = provider;
             _tokenGen = generator;
-            _repository = repository;
+            _identityContext = context;
             _userProvider = userProvider;
         }
 
@@ -35,11 +35,19 @@ namespace CsMarket.Auth
 
             var format = new SteamIdFormatter(claims[_provider.IdClaimName]);
 
-            if (!_repository.FindUser(format.ToSteamId32(), out Data.Entities.User user))
+            User user;
+
+            try
+            {
+                user = _identityContext.Users
+                    .Where(x => x.SteamId32 == format.ToSteamId32())
+                    .Single();
+            }
+            catch (InvalidOperationException)
             {
                 var summary = _userProvider.GetUserSummary(format.ToSteamId64());
 
-                user = new Data.Entities.User()
+                user = new User()
                 {
                     SteamId32 = format.ToSteamId32(),
                     Name = summary.Name,
@@ -48,7 +56,8 @@ namespace CsMarket.Auth
                     SignupUnixMilli = summary.RegisterTimestamp
                 };
 
-                _repository.AddUser(user);
+                _identityContext.Users.Add(user);
+                _identityContext.SaveChanges();
             }
 
             var newClaims = new List<Claim>

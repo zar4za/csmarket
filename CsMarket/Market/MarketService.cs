@@ -1,21 +1,26 @@
 ﻿using CsMarket.Data;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace CsMarket.Market
 {
     public class MarketService : IMarketService
     {
-        private readonly IListingRepository _repository;
+        private readonly MarketContext _marketContext;
 
-        public MarketService(IListingRepository repository)
+        public MarketService(MarketContext context)
         {
-            _repository = repository;
+            _marketContext = context;
         }
 
         public IEnumerable<Listing> GetActiveListings(int count, int offset, string? marketHashName = null)
         {
-            var query = _repository.GetActiveListings(count, offset, marketHashName);
-            return query.ProjectToType<Listing>();
+            return _marketContext.Listings
+                .AsNoTracking()
+                .Where(x => marketHashName == null || x.Asset.ClassName.MarketHashName == marketHashName)
+                .Skip(offset)
+                .Take(count)
+                .ProjectToType<Listing>();
         }
 
         public void ListItem(long SteamId32, long assetId, decimal price)
@@ -25,7 +30,9 @@ namespace CsMarket.Market
             if (price <= 0)
                 throw new ArgumentOutOfRangeException(nameof(price), price, "Must be > 0.");
 
-            var asset = _repository.SingleAsset(assetId);
+            var asset = _marketContext.Assets
+                .Where(x => x.AssetId == assetId)
+                .Single();
 
             if (asset == null)
                 throw new NullReferenceException($"Asset with id {assetId} is not tracked.");
@@ -38,7 +45,8 @@ namespace CsMarket.Market
                 State = ListingState.Listed
             };
 
-            _repository.AddListing(listing);
+            _marketContext.Listings.Add(listing);
+            _marketContext.SaveChanges();
         }
 
         public void UpdateItem(long SteamId32, long assetId, decimal price)

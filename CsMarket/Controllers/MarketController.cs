@@ -32,11 +32,11 @@ namespace CsMarket.Controllers
                     error = ex.Message
                 });
             }
-            catch (NullReferenceException ex)
+            catch (InvalidOperationException ex)
             {
                 return BadRequest(new
                 {
-                    error = ex.Message + " Try refreshing your inventory."
+                    error = $"Asset with id {assetId} is not tracked, try refreshing your inventory."
                 });
             }
         }

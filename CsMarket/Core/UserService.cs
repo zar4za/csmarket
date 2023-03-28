@@ -5,17 +5,18 @@ namespace CsMarket.Core
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repository;
+        private readonly IdentityContext _identityContext;
 
-        public UserService(IUserRepository repository)
+        public UserService(IdentityContext context)
         {
-            _repository = repository;
+            _identityContext = context;
         }
 
         public void UpdateUser(int steamId, string? email = null, string? tradelink = null)
         {
-            if (!_repository.FindUser(steamId, out User user))
-                throw new NotImplementedException();
+            var user = _identityContext.Users
+                .Where(x => x.SteamId32 == steamId)
+                .Single();
 
             if (email != null)
                 user.Email = email;

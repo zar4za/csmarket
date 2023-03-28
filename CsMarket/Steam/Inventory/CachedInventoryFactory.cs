@@ -6,12 +6,10 @@ namespace CsMarket.Steam.Inventory
     public class CachedInventoryFactory : IInventoryFactory
     {
         private readonly IInventoryFactory _factory;
-        private readonly IAssetRepository _repository;
 
-        public CachedInventoryFactory(IInventoryFactory activeFactory, IAssetRepository repository)
+        public CachedInventoryFactory(IInventoryFactory activeFactory)
         {
             _factory = activeFactory;
-            _repository = repository;
         }
 
         public IEnumerable<Item> GetInventory(long steamId64)
