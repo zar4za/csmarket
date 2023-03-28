@@ -25,11 +25,17 @@ namespace CsMarket.Controllers
             {
                 var inventory = _inventoryFactory.GetInventory(User.GetSteamId());
 
-                return Ok(inventory);
+                return Ok(new
+                {
+                    inventory
+                });
             }
             catch (Exception ex)
             {
-                return Unauthorized(ex);
+                return Unauthorized(new
+                {
+                    error = ex.Message
+                });
             }
         }
     }
