@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CsMarket.Market
+﻿namespace CsMarket.Market
 {
-    public class Listing : IInitialListing
+    public class Listing
     {
         public Guid? ListingId { get; init; }
 

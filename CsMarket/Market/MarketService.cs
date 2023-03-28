@@ -1,6 +1,5 @@
 ﻿using CsMarket.Data;
 using Mapster;
-using MapsterMapper;
 
 namespace CsMarket.Market
 {
@@ -19,9 +18,14 @@ namespace CsMarket.Market
             return query.ProjectToType<Listing>();
         }
 
-        public void ListItem(long SteamId32, IInitialListing init)
+        public void ListItem(long SteamId32, long assetId, decimal price)
         {
-            var asset = _repository.SingleAsset(init.AssetId);
+            if (assetId < 0)
+                throw new ArgumentOutOfRangeException(nameof(assetId), assetId, "Must be positive");
+            if (price <= 0)
+                throw new ArgumentOutOfRangeException(nameof(price), price, "Must be > 0");
+
+            var asset = _repository.SingleAsset(assetId);
 
             if (asset == null)
                 throw new NotImplementedException();
@@ -30,7 +34,7 @@ namespace CsMarket.Market
             {
                 Id = Guid.NewGuid(),
                 Asset = asset,
-                Price = init.Price,
+                Price = price,
                 State = ListingState.Listed
             };
 
