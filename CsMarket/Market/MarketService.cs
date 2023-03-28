@@ -21,14 +21,14 @@ namespace CsMarket.Market
         public void ListItem(long SteamId32, long assetId, decimal price)
         {
             if (assetId < 0)
-                throw new ArgumentOutOfRangeException(nameof(assetId), assetId, "Must be positive");
+                throw new ArgumentOutOfRangeException(nameof(assetId), assetId, "Must be positive.");
             if (price <= 0)
-                throw new ArgumentOutOfRangeException(nameof(price), price, "Must be > 0");
+                throw new ArgumentOutOfRangeException(nameof(price), price, "Must be > 0.");
 
             var asset = _repository.SingleAsset(assetId);
 
             if (asset == null)
-                throw new NotImplementedException();
+                throw new NullReferenceException($"Asset with id {assetId} is not tracked.");
 
             var listing = new Data.Entities.Listing()
             {
