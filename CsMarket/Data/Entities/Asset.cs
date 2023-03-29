@@ -12,5 +12,7 @@ namespace CsMarket.Data.Entities
 
         [Required]
         public AssetClass ClassName { get; init; } = null!;
+
+        public DateTime? LastUpdate { get; set; }
     }
 }

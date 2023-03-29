@@ -16,10 +16,11 @@ builder.Services.AddControllers()
 builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<MarketContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDbContext<IdentityContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<MarketContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IUserSummaryProvider, SteamWebApiClient>();
 builder.Services.AddTransient<AuthService>();
-builder.Services.AddTransient<IInventoryFactory, SteamSupplyInventoryFactory>();
+builder.Services.AddTransient<SteamInventoryFactory, SteamSupplyInventoryFactory>();
+builder.Services.AddTransient<IInventoryFactory, CachedInventoryFactory>();
 
 builder.Services.AddJwt(builder.Configuration);
 builder.Services.AddSteam(builder.Configuration);

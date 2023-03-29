@@ -32,7 +32,7 @@ namespace CsMarket.Controllers
                     error = ex.Message
                 });
             }
-            catch (InvalidOperationException ex)
+            catch (InvalidOperationException)
             {
                 return BadRequest(new
                 {

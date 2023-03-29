@@ -5,9 +5,9 @@ namespace CsMarket.Core
 {
     public class UserService : IUserService
     {
-        private readonly IdentityContext _identityContext;
+        private readonly MarketContext _identityContext;
 
-        public UserService(IdentityContext context)
+        public UserService(MarketContext context)
         {
             _identityContext = context;
         }
