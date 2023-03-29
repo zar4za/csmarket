@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './User.module.css';
 
 const formatConfig = {
@@ -27,10 +28,12 @@ export default function User() {
             />
             {formatter.format(balance)}
         </button>
-        <Image className={styles.avatar}
+        <Link href={'/user'}>
+            <Image className={styles.avatar}
             src='/static/images/avatar_medium.jpg'
             width={40}
             height={40}
-        />
+            />
+        </Link>
     </div>
 }

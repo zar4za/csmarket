@@ -6,5 +6,5 @@ const fetchWithJwt = ({url, token}) => fetch(url, {
         }
     }).then(res => res.json());
 
-export const useInventory = (token) => useSWRImmutable({ url: '/api/user', token }, fetchWithJwt);
+export const useInventory = (token) => useSWRImmutable({ url: '/api/user/inventory', token }, fetchWithJwt);
 
