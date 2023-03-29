@@ -1,8 +1,10 @@
 ﻿using CsMarket.Core;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CsMarket.Data.Entities
 {
+    [Table("Users")]
     public class User
     {
         [Key]

@@ -8,9 +8,11 @@ namespace CsMarket.Data
         public DbSet<Listing> Listings { get; init; } = null!;
         public DbSet<Asset> Assets { get; init; } = null!;
 
+        public DbSet<User> Users { get; init; } = null!;
+
         public MarketContext(DbContextOptions<MarketContext> options) : base(options)
         {
-            Database.Migrate();
+            Database.EnsureCreated();   
         }
     }
 }

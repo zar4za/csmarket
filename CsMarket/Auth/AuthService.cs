@@ -13,12 +13,12 @@ namespace CsMarket.Auth
 
         private readonly IChallengeProvider _provider;
         private readonly IJwtTokenGenerator _tokenGen;
-        private readonly IdentityContext _identityContext;
+        private readonly MarketContext _identityContext;
         private readonly IUserSummaryProvider _userProvider;
 
         public string RequestUri => _provider.RequestUri;
 
-        public AuthService(IChallengeProvider provider, IJwtTokenGenerator generator, IdentityContext context, IUserSummaryProvider userProvider)
+        public AuthService(IChallengeProvider provider, IJwtTokenGenerator generator, MarketContext context, IUserSummaryProvider userProvider)
         {
             _provider = provider;
             _tokenGen = generator;

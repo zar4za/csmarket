@@ -1,5 +1,6 @@
 ﻿using CsMarket.Auth;
 using CsMarket.Auth.Jwt;
+using CsMarket.Core;
 using CsMarket.Steam;
 using Mapster;
 using MapsterMapper;
@@ -95,6 +96,13 @@ namespace CsMarket.Infrastructure
                 .Map(dest => dest.AssetId, src => src.Asset.AssetId)
                 .Map(dest => dest.IconHash, src => src.Asset.ClassName.IconUrl)
                 .Map(dest => dest.MarketHashName, src => src.Asset.ClassName.MarketHashName);
+
+            TypeAdapterConfig<Data.Entities.Asset, Item>
+                .NewConfig()
+                .Map(dest => dest.AssetId, src => src.AssetId)
+                .Map(dest => dest.ClassId, src => src.ClassName.ClassId)
+                .Map(dest => dest.IconUrl, src => src.ClassName.IconUrl)
+                .Map(dest => dest.MarketHashName, src => src.ClassName.MarketHashName);
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 
