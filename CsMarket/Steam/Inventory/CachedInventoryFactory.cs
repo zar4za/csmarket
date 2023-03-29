@@ -32,8 +32,10 @@ namespace CsMarket.Steam.Inventory
                 return cached.ProjectToType<Item>();
 
             _marketContext.Database.BeginTransaction();
-            _marketContext.Assets.RemoveRange(cached);
-            var inventory = _factory.GetInventory(steamId64).Select(x => new Data.Entities.Asset()
+
+            var result = _factory.GetInventory(steamId64);
+
+            var inventory = result.Select(x => new Data.Entities.Asset()
             {
                 AssetId = x.AssetId,
                 Owner = user,
@@ -46,7 +48,9 @@ namespace CsMarket.Steam.Inventory
                 }
             });
 
-            _marketContext.Assets.AddRange(inventory);
+            _marketContext.Assets.RemoveRange(cached.Where(x => !inventory.Contains(x)));
+            _marketContext.Assets.AddRange(inventory.Where(x => !cached.Contains(x)));
+            _marketContext.Assets.UpdateRange(inventory.Where(x => cached.Contains(x)));
             _marketContext.Database.CommitTransaction();
             _marketContext.SaveChanges();
 

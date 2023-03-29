@@ -7,10 +7,8 @@ namespace CsMarket.Data.Entities
         [Key]
         public long AssetId { get; init; }
 
-        [Required]
         public User Owner { get; init; } = null!;
 
-        [Required]
         public AssetClass ClassName { get; init; } = null!;
 
         public DateTime? LastUpdate { get; set; }
