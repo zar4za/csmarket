@@ -1,0 +1,46 @@
+.card {
+    max-width: 240px;
+    height: 180px;
+    background: linear-gradient(0deg, #1f1f1f 30%, #ed422b 110%);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card__image {
+    position: relative !important;
+    height: 170px !important;
+    object-fit: contain;
+}
+
+.card__link {
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+}
+
+.card__desc {
+    color: #999999;
+    display: flex;
+    flex-direction: column;
+    line-height: 1em;
+    position: relative;
+    margin-top: -170px;
+    height: 170px;
+}
+
+.card__price {
+    color: #F5F5F5;
+    font-size: 1.3em;
+    line-height: 1.3em;
+    font-weight: 600;
+    justify-self: flex-end;
+}
+
+.card__wear {
+    font-size: 0.75em;
+    line-height: 1em;
+    width: 2em;
+}
