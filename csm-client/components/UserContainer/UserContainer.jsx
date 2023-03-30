@@ -3,7 +3,7 @@ import SignIn from '@comp/SignIn/SignIn';
 import User from '@comp/User/User';
 
 export default function UserContainer() {
-    if (!document.cookie.includes("Bearer"))
+    if (document?.cookie?.includes("Bearer") == false)
         return <SignIn />;
     const token = getCookie("Bearer");
     if (localStorage.getItem("Bearer") != token)
