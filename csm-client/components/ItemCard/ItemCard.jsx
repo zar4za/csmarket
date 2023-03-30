@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { card, card__price, card__link, card__wear, card__desc, card__image } from './ItemCard.module.css';
-import cardQuality from './ItemCard.module.css';
+import itemCardQuality from './ItemCardQuality.module.css';
 
 
 const heightAspect = 3/4;
@@ -25,8 +25,10 @@ export default function ItemCard({href, market_hash_name, icon_url, price, quali
         <div className={card__desc}>
             <Link href={href} className={card__link}>
                 <div className={card__wear}>{wear}</div>
-                <div >{finish[1]}</div>
-                <div className={card__price}>{price} ₽</div>
+                <div>{finish[1]}</div>
+                {
+                    price == null ? <></> : <div className={card__price}>{price} ₽</div>
+                }
             </Link>
         </div>
     </div>
@@ -38,6 +40,5 @@ function steamImageLoader({src}) {
 
 function getCardClass(quality) {
     if (quality == 'common') return card;
-
-    return `${card} ${cardQuality['card_' + quality]}`;
+    return `${card} ${itemCardQuality[quality]}`;
 }

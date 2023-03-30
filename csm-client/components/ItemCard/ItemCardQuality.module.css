@@ -1,0 +1,19 @@
+.insudtrial {
+    background: linear-gradient(0deg, #1f1f1f 30%, #6AB2F4 110%);
+}
+
+.milspec {
+    background: linear-gradient(0deg, #1f1f1f 30%, #275CE4 110%);
+}
+
+.restricted {
+    background: linear-gradient(0deg, #1f1f1f 30%, #8533ED 110%);
+}
+
+.classified {
+    background: linear-gradient(0deg, #1f1f1f 30%, #CF309C 110%);
+}
+
+.covert {
+    background: linear-gradient(0deg, #1f1f1f 30%, #ed422b 110%);
+}
