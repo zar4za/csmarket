@@ -29,7 +29,7 @@ namespace CsMarket.Steam.Inventory
             var cached = _marketContext.Assets.Where(x => x.Owner.SteamId32 == steamId32);
 
             if (cached.Any() && !cached.Any(x => DateTime.UtcNow - x.LastUpdate > TimeSpan.FromSeconds(600)))
-                return cached.ProjectToType<Item>();
+                return cached.OrderByDescending(x => x.AssetId).ProjectToType<Item>();
 
             _marketContext.Database.BeginTransaction();
 
@@ -40,21 +40,30 @@ namespace CsMarket.Steam.Inventory
                 AssetId = x.AssetId,
                 Owner = user,
                 LastUpdate = DateTime.UtcNow,
-                ClassName = new Data.Entities.AssetClass()
+                WasTraded = false,
+                Class = new Data.Entities.AssetClass()
                 {
                     ClassId = x.ClassId,
                     IconUrl = x.IconUrl,
-                    MarketHashName = x.MarketHashName
+                    MarketHashName = x.MarketHashName,
+                    Rarity = x.Rarity
                 }
             });
 
-            _marketContext.Assets.RemoveRange(cached.Where(x => !inventory.Contains(x)));
-            _marketContext.Assets.AddRange(inventory.Where(x => !cached.Contains(x)));
+            foreach (var asset in cached.Where(x => !inventory.Contains(x)))
+            {
+                asset.WasTraded = true;
+            }
+
             _marketContext.Assets.UpdateRange(inventory.Where(x => cached.Contains(x)));
+            _marketContext.Assets.AddRange(inventory.Where(x => !cached.Contains(x)));
             _marketContext.Database.CommitTransaction();
             _marketContext.SaveChanges();
 
-            return _marketContext.Assets.Where(x => x.Owner.SteamId32 == steamId32).ProjectToType<Item>();
+            return _marketContext.Assets
+                .Where(x => x.Owner.SteamId32 == steamId32)
+                .OrderByDescending(x => x.AssetId)
+                .ProjectToType<Item>();
         }
     }
 }

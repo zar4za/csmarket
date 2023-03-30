@@ -12,5 +12,8 @@ namespace CsMarket.Data.Entities
 
         [Required]
         public string IconUrl { get; init; } = null!;
+
+        [Required]
+        public string Rarity { get; set; } = null!;
     }
 }

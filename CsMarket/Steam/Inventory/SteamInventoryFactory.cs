@@ -14,24 +14,25 @@ namespace CsMarket.Steam.Inventory
                 NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
             };
 
-            var descriptions = new Dictionary<(long, long), Description>();
+            var descriptions = new Dictionary<long, Description>();
             foreach (var desc in json["descriptions"].AsArray())
             {
-                descriptions.Add((long.Parse(desc["instanceid"].GetValue<string>()), long.Parse(desc["classid"].GetValue<string>())), desc.Deserialize<Description>(options));
+                descriptions.Add(long.Parse(desc["classid"].GetValue<string>()), desc.Deserialize<Description>(options));
             }
 
             return json["assets"]!.AsArray().Select(x =>
             {
                 var classId = long.Parse(x["classid"].GetValue<string>());
                 var instanceId = long.Parse(x["instanceid"].GetValue<string>());
-                var description = descriptions[(instanceId, classId)];
+                var description = descriptions[classId];
                 return new Item()
                 {
                     AssetId = long.Parse(x["assetid"].GetValue<string>()),
                     ClassId = classId,
                     InstanceId = instanceId,
-                    IconUrl = description.IconUrl,
-                    MarketHashName = description.MarketHashName
+                    IconUrl = description.IconUrlLarge ?? description.IconUrl,
+                    MarketHashName = description.MarketHashName,
+                    Rarity = description.Type[..description.Type.IndexOf(' ')].Replace("-", "").ToLower()
                 };
             });
         }

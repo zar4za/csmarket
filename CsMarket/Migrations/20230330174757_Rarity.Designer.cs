@@ -12,14 +12,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CsMarket.Migrations
 {
     [DbContext(typeof(MarketContext))]
-    [Migration("20230329084653_Init")]
-    partial class Init
+    [Migration("20230330174757_Rarity")]
+    partial class Rarity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -32,7 +32,7 @@ namespace CsMarket.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("AssetId"));
 
-                    b.Property<long>("ClassNameClassId")
+                    b.Property<long>("ClassId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime?>("LastUpdate")
@@ -41,9 +41,12 @@ namespace CsMarket.Migrations
                     b.Property<int>("OwnerSteamId32")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("WasTraded")
+                        .HasColumnType("boolean");
+
                     b.HasKey("AssetId");
 
-                    b.HasIndex("ClassNameClassId");
+                    b.HasIndex("ClassId");
 
                     b.HasIndex("OwnerSteamId32");
 
@@ -63,6 +66,10 @@ namespace CsMarket.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("MarketHashName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Rarity")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -122,14 +129,14 @@ namespace CsMarket.Migrations
 
                     b.HasKey("SteamId32");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CsMarket.Data.Entities.Asset", b =>
                 {
-                    b.HasOne("CsMarket.Data.Entities.AssetClass", "ClassName")
+                    b.HasOne("CsMarket.Data.Entities.AssetClass", "Class")
                         .WithMany()
-                        .HasForeignKey("ClassNameClassId")
+                        .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -139,7 +146,7 @@ namespace CsMarket.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ClassName");
+                    b.Navigation("Class");
 
                     b.Navigation("Owner");
                 });

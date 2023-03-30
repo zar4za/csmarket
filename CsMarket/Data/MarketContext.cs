@@ -12,7 +12,6 @@ namespace CsMarket.Data
 
         public MarketContext(DbContextOptions<MarketContext> options) : base(options)
         {
-            Database.EnsureCreated();   
         }
     }
 }

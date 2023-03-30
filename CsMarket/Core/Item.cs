@@ -18,5 +18,8 @@ namespace CsMarket.Core
 
         [JsonPropertyName("icon_url")]
         public string IconUrl { get; init; } = string.Empty;
+
+        [JsonPropertyName("rarity")]
+        public string Rarity { get; init; } = string.Empty;
     }
 }

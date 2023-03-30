@@ -9,7 +9,9 @@ namespace CsMarket.Data.Entities
 
         public User Owner { get; init; } = null!;
 
-        public AssetClass ClassName { get; init; } = null!;
+        public AssetClass Class { get; init; } = null!;
+
+        public bool WasTraded { get; set; }
 
         public DateTime? LastUpdate { get; set; }
     }

@@ -25,7 +25,7 @@ namespace CsMarket.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     SteamId32 = table.Column<int>(type: "integer", nullable: false)
@@ -39,7 +39,7 @@ namespace CsMarket.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.SteamId32);
+                    table.PrimaryKey("PK_Users", x => x.SteamId32);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,22 +49,23 @@ namespace CsMarket.Migrations
                     AssetId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     OwnerSteamId32 = table.Column<int>(type: "integer", nullable: false),
-                    ClassNameClassId = table.Column<long>(type: "bigint", nullable: false),
+                    ClassId = table.Column<long>(type: "bigint", nullable: false),
+                    WasTraded = table.Column<bool>(type: "boolean", nullable: false),
                     LastUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assets", x => x.AssetId);
                     table.ForeignKey(
-                        name: "FK_Assets_AssetClass_ClassNameClassId",
-                        column: x => x.ClassNameClassId,
+                        name: "FK_Assets_AssetClass_ClassId",
+                        column: x => x.ClassId,
                         principalTable: "AssetClass",
                         principalColumn: "ClassId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Assets_User_OwnerSteamId32",
+                        name: "FK_Assets_Users_OwnerSteamId32",
                         column: x => x.OwnerSteamId32,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "SteamId32",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -90,9 +91,9 @@ namespace CsMarket.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assets_ClassNameClassId",
+                name: "IX_Assets_ClassId",
                 table: "Assets",
-                column: "ClassNameClassId");
+                column: "ClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assets_OwnerSteamId32",
@@ -117,7 +118,7 @@ namespace CsMarket.Migrations
                 name: "AssetClass");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

@@ -94,15 +94,16 @@ namespace CsMarket.Infrastructure
                 .Map(dest => dest.ListingId, src => src.Id)
                 .Map(dest => dest.Price, src => src.Price)
                 .Map(dest => dest.AssetId, src => src.Asset.AssetId)
-                .Map(dest => dest.IconHash, src => src.Asset.ClassName.IconUrl)
-                .Map(dest => dest.MarketHashName, src => src.Asset.ClassName.MarketHashName);
+                .Map(dest => dest.IconHash, src => src.Asset.Class.IconUrl)
+                .Map(dest => dest.MarketHashName, src => src.Asset.Class.MarketHashName);
 
             TypeAdapterConfig<Data.Entities.Asset, Item>
                 .NewConfig()
                 .Map(dest => dest.AssetId, src => src.AssetId)
-                .Map(dest => dest.ClassId, src => src.ClassName.ClassId)
-                .Map(dest => dest.IconUrl, src => src.ClassName.IconUrl)
-                .Map(dest => dest.MarketHashName, src => src.ClassName.MarketHashName);
+                .Map(dest => dest.ClassId, src => src.Class.ClassId)
+                .Map(dest => dest.IconUrl, src => src.Class.IconUrl)
+                .Map(dest => dest.MarketHashName, src => src.Class.MarketHashName)
+                .Map(dest => dest.Rarity, src => src.Class.Rarity);
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 

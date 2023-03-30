@@ -17,7 +17,7 @@ namespace CsMarket.Market
         {
             return _marketContext.Listings
                 .AsNoTracking()
-                .Where(x => marketHashName == null || x.Asset.ClassName.MarketHashName == marketHashName)
+                .Where(x => marketHashName == null || x.Asset.Class.MarketHashName == marketHashName)
                 .Skip(offset)
                 .Take(count)
                 .ProjectToType<Listing>();
