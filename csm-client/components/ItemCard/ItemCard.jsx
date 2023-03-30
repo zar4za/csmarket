@@ -13,7 +13,12 @@ const regex = /\|\s(.*)\s\((.*)\)/;
 
 export default function ItemCard({href, market_hash_name, icon_url, price, quality, float}) {
     const finish = market_hash_name.match(regex);
-    const wear = finish[2].split(' ')[0].substring(0, 1) + finish[2].split(' ')[1].substring(0, 1);
+    let name = market_hash_name;
+    let wear = '';
+    if (finish != undefined && finish.length != 0) {
+        name = finish[1];
+        wear = finish[2].split(' ')[0]?.substring(0, 1) + finish[2]?.split(' ')[1]?.substring(0, 1);
+    }
 
     return <div className={getCardClass(quality)}>
         <Image
@@ -25,7 +30,7 @@ export default function ItemCard({href, market_hash_name, icon_url, price, quali
         <div className={card__desc}>
             <Link href={href} className={card__link}>
                 <div className={card__wear}>{wear} {float?.toFixed(4) ?? <></>}</div>
-                <div>{finish[1]}</div>
+                <div>{name}</div>
                 {
                     price == null ? <></> : <div className={card__price}>{price} ₽</div>
                 }
