@@ -5,10 +5,7 @@ import { card, card__price, card__link, card__wear, card__desc, card__image, car
 import itemCardQuality from './ItemCardQuality.module.css';
 
 
-const heightAspect = 3/4;
-const width = 170;
-const height = width * heightAspect;
-const regex = /\|\s(.*)\s\((.*)\)/;
+const regex = /\|\s(.*)\s\((?:([A-Z])(?:([a-z]*)\)|[a-z]*(?:-|\s)([A-Z])))/;
 
 
 export default function ItemCard({href, assetId, market_hash_name, icon_url, price, quality, float}) {
@@ -17,7 +14,7 @@ export default function ItemCard({href, assetId, market_hash_name, icon_url, pri
     let wear = '';
     if (finish != undefined && finish.length != 0) {
         name = finish[1];
-        wear = finish[2].split(' ')[0]?.substring(0, 1) + finish[2]?.split(' ')[1]?.substring(0, 1);
+        wear = finish[2] + (finish[3] == undefined ? finish[4] : finish[3].toUpperCase());
     }
 
     return <div className={getCardClass(quality)} id={assetId}>
