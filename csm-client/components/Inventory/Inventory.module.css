@@ -1,6 +1,5 @@
 .grid {
-    background-color: #0b0b0b;
-    padding: 1em;
+    margin: 16px auto;
     display: flex;
     flex-wrap: wrap;
     flex-basis: auto;

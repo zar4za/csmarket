@@ -15,7 +15,7 @@ export default function Home() {
     />
     <div className={container}>
       <h1 className={styles.theme}>НОРМАЛЬНАЯ ТЕМА - ТЕМНАЯ ТЕМА!</h1>
-      <h3 className={styles.trade}>Торгуй скинами как по кайфу - ваще ништяковая тема ежжи! </h3>
+      <h3 className={styles.trade}>Торгуй скинами как по кайфу - ваще ништяковая тема!</h3>
       <SignIn />
     </div>
   </>
