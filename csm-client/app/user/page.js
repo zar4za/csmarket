@@ -1,30 +1,42 @@
-'use client';
 import Image from 'next/image';
-import Footer from '@/components/Footer/Footer';
-import Header from '@/components/Header/Header';
-import { useInventory } from '@/lib/api/client';
-import ItemCard from '@/components/ItemCard/ItemCard';
+import Footer from '@comp/Footer/Footer';
+import Header from '@comp/Header/Header';
+import ItemCard from '@comp/ItemCard/ItemCard';
+import SkeletonCard from '@comp/ItemCard/SkeletonCard';
 import { grid } from './page.module.css';
+// import useSWRImmutable from 'swr/immutable';
+import { getInventory } from '@/lib/api/client';
+// import { useRouter }from 'next/router';
+import Inventory from '@/components/Inventory/Inventory';
 
 export default function UserPage() {
-    const { data, error, isLoading } = useInventory(localStorage.getItem('Bearer'));
+    // const { data, error, isLoading } = useSWRImmutable('inventory', getInventory);
+    // const amount = Math.floor(window.innerWidth / 240 * window.innerHeight / 180);
 
     return <>
-    <Header />
-    <main className={grid}>
+        <Inventory />
+
+
+    {/* <main className={grid}>
     {
         isLoading ? 
-        'Загрузка' : 
+        <Skeleton length={amount}/> :  
         data.inventory.map(asset => 
             <ItemCard
                 href="#"
+                assetId={asset.assetid}
                 market_hash_name={asset.market_hash_name}
                 icon_url={asset.icon_url}
                 quality={asset.rarity}
             />
         )
     }
-    </main>
-    <Footer />
+    </main> */}
     </>
 }
+
+// function Skeleton({ length }) {
+//     return <>
+//         {Array(length).fill(null).map((item, index) => <SkeletonCard key={index}/>)}
+//     </>
+// }

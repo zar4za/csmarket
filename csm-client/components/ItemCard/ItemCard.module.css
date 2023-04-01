@@ -10,6 +10,12 @@
     flex: 1 15%;
 }
 
+.card__name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .card__image {
     position: relative !important;
     height: 170px !important;

@@ -15,13 +15,11 @@ export default function Home() {
         fill
       />
     </div>
-    <Header />
     <main className={styles.hello}>
       <h1 className={styles.theme}>НОРМАЛЬНАЯ ТЕМА - ТЕМНАЯ ТЕМА!</h1>
       <h3 className={styles.trade}>Торгуй скинами как по кайфу - ваще ништяковая тема ежжи! </h3>
       <SignIn />
     </main>
-    <Footer transparent/>
   </>
   )
 }
