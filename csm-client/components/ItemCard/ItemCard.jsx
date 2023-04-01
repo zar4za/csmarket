@@ -20,6 +20,7 @@ export default function ItemCard({href, assetId, market_hash_name, icon_url, pri
     return <div className={getCardClass(quality)} id={assetId}>
         <Image
                 className={card__image}
+                alt={market_hash_name}
                 src={icon_url}
                 loader={steamImageLoader}
                 fill
