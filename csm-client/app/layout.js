@@ -1,6 +1,7 @@
 import './globals.css';
 import Header from '@comp/Header/Header';
 import Footer from '@comp/Footer/Footer';
+import { main } from './Layout.module.css';
 
 export const metadata = {
   title: 'CS market',
@@ -12,7 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header />
-        {children}
+          <main className={main}>{children}</main>
         <Footer />
         </body>
     </html>

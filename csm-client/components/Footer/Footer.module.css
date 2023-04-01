@@ -1,6 +1,4 @@
 .container {
-    max-width: 1280px;
-    margin: auto;
     justify-content: space-between;
     display: flex;
     padding: 0 16px;
@@ -21,6 +19,7 @@
 }
 
 .footer__info {
+    align-self: flex-end;
     list-style: none;
     display: flex;
     gap: 32px;
