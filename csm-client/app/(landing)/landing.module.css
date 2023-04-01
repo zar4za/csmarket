@@ -1,0 +1,48 @@
+.main {
+    height: calc(100vh - 72px);
+    background: linear-gradient(105deg, #161616 0%, #000 40%);
+    z-index: -1;
+}
+
+.background {
+    object-position: 25vw 0;
+    position: relative;
+    object-fit: cover;
+    mix-blend-mode: exclusion;
+    filter: saturate(0.7);
+}
+
+.offer {
+    margin-left: 5%;
+    margin-top: 12%;
+    max-width: 30%;
+}
+
+.head {
+    font-size: 3em;
+    margin-top: 0;
+    font-weight: 900;
+}
+
+.motto {
+    font-size: 2.5em;
+    margin: 10px 0 30px;
+    line-height: 1.2em;
+    font-weight: 300;
+}
+
+@media screen and (max-width: 1600px) {
+    .offer {
+        margin-left: 7%;
+        margin-top: 5%;
+        max-width: 30%;
+    }
+
+    .head {
+        font-size: 2em;
+    }
+    
+    .motto {
+        font-size: 1.5em;
+    }
+}
