@@ -3,12 +3,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { card, card__price, card__link, card__wear, card__desc, card__image, card__name } from './ItemCard.module.css';
 import itemCardQuality from './ItemCardQuality.module.css';
+import { useState } from 'react';
+import { useSellItems } from '../context';
 
 
 const regex = /\|\s(.*)\s\((?:([A-Z])(?:([a-z]*)\)|[a-z]*(?:-|\s)([A-Z])))/;
 
 
-export default function ItemCard({href, assetId, market_hash_name, icon_url, price, quality, float}) {
+export default function ItemCard(asset) {
+    const {assetId, market_hash_name, icon_url, price, quality, float, onAddItem, onRemoveItem} = asset;
+    const [isClicked, setClick] = useState(false);
     const finish = market_hash_name.match(regex);
     let name = market_hash_name;
     let wear = '';
@@ -26,13 +30,18 @@ export default function ItemCard({href, assetId, market_hash_name, icon_url, pri
                 fill
             />
         <div className={card__desc}>
-            <Link href={href} className={card__link}>
+            <div className={card__link} onClick={() => {
+                if (isClicked) onRemoveItem(asset);
+                else onAddItem(asset);
+                
+                setClick(!isClicked);
+            }}>
                 <div className={card__wear}>{wear} {float?.toFixed(4) ?? <></>}</div>
                 <div className={card__name}>{name}</div>
                 {
                     price == null ? <></> : <div className={card__price}>{price} ₽</div>
                 }
-            </Link>
+            </div>
         </div>
     </div>
 }

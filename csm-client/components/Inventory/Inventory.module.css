@@ -1,8 +1,10 @@
 .grid {
-    margin: 16px auto;
+    margin: 16px 0 0 16px;
+    overflow: auto;
     display: flex;
     flex-wrap: wrap;
     flex-basis: auto;
-    gap: 1em;
-    justify-content: center;
+    gap: 16px;
+    justify-content: flex-start;
+    max-height: calc(100vh - 160px);
 }

@@ -1,0 +1,9 @@
+.block {
+    min-width: 370px;
+    position: sticky;
+    background-color: #282828;
+    margin: 16px 0;
+    margin-bottom: 16px;
+    border-radius: 5px;
+    padding: 16px;
+}

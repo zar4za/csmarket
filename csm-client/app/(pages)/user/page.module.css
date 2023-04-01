@@ -1,8 +1,0 @@
-.grid {
-    padding: 1em;
-    display: flex;
-    flex-wrap: wrap;
-    flex-basis: auto;
-    gap: 1em;
-    justify-content: center;
-}
