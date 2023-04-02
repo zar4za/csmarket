@@ -1,5 +1,5 @@
 'use client';
-import { background, name } from './SellCard.module.css';
+import { background, item, name, sell, price, close, remove } from './SellCard.module.css';
 import Image from 'next/image';
 
 export default function SellCard({ asset }) {
@@ -12,17 +12,24 @@ export default function SellCard({ asset }) {
     } = asset;
 
     return <div className={background}>
+        <div className={name}>{market_hash_name}</div>
+        <button className={remove} onClick={() => onRemoveItem(asset)}>
+            <Image className={close}
+                src='/static/icons/close.svg'
+                width={24}
+                height={24}
+            />
+        </button>
         <Image
             loader={steamImageLoader}
             src={icon_url}
-            width={120}
-            height={90}
+            width={80}
+            height={60}
         />
-        <div>
-            <input></input>
-            <button></button>
+        <div className={sell}>
+            <input type='number' step='0.01' className={price}></input>
+            <input type='number' step='0.01' className={price}></input>
         </div>
-        <div className={name}>{market_hash_name}</div>
     </div>
 }
 

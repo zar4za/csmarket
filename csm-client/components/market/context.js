@@ -7,6 +7,16 @@ export function sellItemsReducer(items, action) {
         case 'ADD': {
             return [...items, action.asset];
         }
+        case 'SET': {
+            return items.map(i => {
+                if (i.assetId === action.assetId) {
+                    i.price = action.price
+                    return i;
+                } else {
+                  return i;
+                }
+              });
+        }
         case 'REMOVE': {
             return items.filter(a => a.assetId !== action.asset.assetId);  
         }

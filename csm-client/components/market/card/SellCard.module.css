@@ -3,11 +3,61 @@
     border-radius: 5px;
     padding: 16px;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
+.item {
+    display: flex;
+    max-width: 280px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-right: 16px;
+}
+
+.sell {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    max-height: 40px;
+    align-self: center;
+}
+
 .name {
-    margin-top: 16px;
     font-weight: 300;
+    margin-bottom: 16px;
+    width: 280px;
+}
+
+.price {
+    max-width: 80px;
+    height: 30px;
+    background-color: #161616;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    text-align: end;
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.price::-webkit-outer-spin-button,
+.price::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin-right: 3px;
+}
+
+.price:focus {
+    outline: 2px solid #282828;
+}
+
+.remove {
+    background: transparent;
+    border: none;
+    align-self: flex-start;
+}
+
+.close {
+    filter: invert(98%) sepia(5%) saturate(368%) hue-rotate(309deg) brightness(117%) contrast(80%);
 }
