@@ -1,9 +1,25 @@
 .block {
     min-width: 370px;
+    max-width: 370px;
     position: sticky;
     background-color: #282828;
     margin: 16px 0;
     margin-bottom: 16px;
     border-radius: 5px;
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 160px);
+}
+
+.cards {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.confirm {
+    justify-self:
 }
