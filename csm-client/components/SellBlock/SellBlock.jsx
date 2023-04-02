@@ -1,5 +1,6 @@
+import { postOnSale } from '@/lib/api/client';
 import SellCard from '../market/card/SellCard';
-import { block, cards, confirm } from './SellBlock.module.css';
+import { block, cards, confirm, submit } from './SellBlock.module.css';
 
 export default function SellBlock({ items }) {
     return <div className={block}>
@@ -8,7 +9,14 @@ export default function SellBlock({ items }) {
             {items.map(item => <SellCard asset={item}/>)}
         </div>
         <div className={confirm}>
-            <button>Продать</button>
+            <button className={submit} onClick={() => {
+                postOnSale(items.map(item => {
+                    return {
+                        assetId: item.assetId,
+                        price: item.price
+                    }
+                }));
+            }}>Продать</button>
         </div>
     </div>
 }

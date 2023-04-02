@@ -6,6 +6,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    max-height: 140px;
+    margin-top: 16px;
 }
 
 .item {

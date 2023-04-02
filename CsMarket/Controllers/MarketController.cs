@@ -1,5 +1,6 @@
 ﻿using CsMarket.Auth;
 using CsMarket.Market;
+using CsMarket.Market.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,17 @@ namespace CsMarket.Controllers
             _market = market;
         }
 
-        [HttpPost]
+        [HttpPost("list")]
         [Authorize(Roles="Common,Seller,Admin")]
-        public IActionResult ListItem(long assetId, decimal price)
+        public IActionResult ListItems(IEnumerable<InitListing> assetPrices)
         {
+            var steamId = User.GetSteamId();
             try
             {
-                _market.ListItem(User.GetSteamId(), assetId, price);
+                foreach (var asset in assetPrices)
+                {
+                    _market.ListItem(steamId, asset.AssetId, asset.Price);
+                }
                 return Ok();
             }
             catch (ArgumentOutOfRangeException ex)
@@ -36,7 +41,7 @@ namespace CsMarket.Controllers
             {
                 return BadRequest(new
                 {
-                    error = $"Asset with id {assetId} is not tracked, try refreshing your inventory."
+                    error = $"Asset is not tracked, try refreshing your inventory."
                 });
             }
         }

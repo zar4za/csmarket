@@ -4,22 +4,27 @@
     position: sticky;
     background-color: #282828;
     margin: 16px 0;
-    margin-bottom: 16px;
     border-radius: 5px;
     padding: 16px;
     display: flex;
     flex-direction: column;
-    max-height: calc(100vh - 160px);
+    max-height: calc(100vh - 176px);
 }
 
 .cards {
     margin-top: 16px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
     overflow-y: auto;
+    height: 662px;
 }
 
 .confirm {
-    justify-self:
+    background-color: #282828;
+}
+
+.submit {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border-width: 0;
+    background-color: #316890;
 }

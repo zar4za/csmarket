@@ -11,7 +11,8 @@ export default function Header() {
                     <Brand />
                 </Link>
             <nav className={styles.container}>
-                <Link href={'/market/sell'}>Продажа</Link>
+                <Link href={'/market'}>Купить</Link>
+                <Link href={'/market/sell'}>Продать</Link>
             </nav>
             <UserContainer />
         </Container>
